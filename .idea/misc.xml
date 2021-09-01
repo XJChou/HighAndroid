@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/code/Android/HighAndroid/animation/src/main/res/layout/activity_main.xml" value="0.276268115942029" />
+        <entry key="..\:/code/Android/HighAndroid/animation/src/main/res/layout/fragment_first.xml" value="0.276268115942029" />
+        <entry key="..\:/code/Android/HighAndroid/animation/src/main/res/layout/fragment_fourth.xml" value="0.1259259259259259" />
+        <entry key="..\:/code/Android/HighAndroid/animation/src/main/res/layout/fragment_second.xml" value="0.276268115942029" />
+        <entry key="..\:/code/Android/HighAndroid/animation/src/main/res/layout/fragment_third.xml" value="0.276268115942029" />
+        <entry key="..\:/code/Android/HighAndroid/clipcamera/src/main/res/layout/activity_main.xml" value="0.28940217391304346" />
+        <entry key="..\:/code/Android/HighAndroid/materialedittext/src/main/res/layout/activity_main.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/path/src/main/res/layout/activity_main.xml" value="0.2817028985507246" />
+        <entry key="..\:/code/Android/HighAndroid/text/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

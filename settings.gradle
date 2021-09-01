@@ -1,0 +1,17 @@
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // Warning: this repository is going to shut down soon
+    }
+}
+rootProject.name = "HighAndroid"
+include ':app'
+include ':text'
+include ':common'
+include ':myapplication'
+include ':path'
+include ':clipcamera'
+include ':animation'
+include ':materialedittext'
