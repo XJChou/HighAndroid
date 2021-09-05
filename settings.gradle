@@ -10,7 +10,6 @@ rootProject.name = "HighAndroid"
 include ':app'
 include ':text'
 include ':common'
-include ':myapplication'
 include ':path'
 include ':clipcamera'
 include ':animation'

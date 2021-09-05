@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Camera
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import kotlin.reflect.KProperty
@@ -38,9 +39,7 @@ fun Resources.decodeResource(resourceId: Int, targetWidth: Float): Bitmap {
 
 class FloatInvalidate(var field: Float = 0f) {
 
-    operator fun getValue(view: View, property: KProperty<*>): Float {
-        return field
-    }
+    operator fun getValue(view: View, property: KProperty<*>) = field
 
     operator fun setValue(view: View, property: KProperty<*>, value: Float) {
         field = value
@@ -53,7 +52,11 @@ inline fun Camera.withSave(block: Camera.() -> Unit) {
     save()
     try {
         block()
-    }finally {
+    } finally {
         restore()
     }
+}
+
+inline fun e(msg: String) {
+    Log.e("HighAndroid", msg)
 }
