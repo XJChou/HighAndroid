@@ -19,23 +19,28 @@ class MaterialEditTextView(context: Context, attrs: AttributeSet) :
     var floatFraction by FloatInvalidate(0f)
     private var isFloatLabel = false
 
-    var useFloatLabel = true
+    /**
+     * 默认是没有padding的，所以设置为false不会有bug,当发生改变才去修改padding，反之会有bug
+     */
+    var useFloatLabel = false
         set(value) {
-            if (value) {
-                setPadding(
-                    paddingLeft,
-                    (paddingTop + TEXT_SIZE + TEXT_TOP).toInt(),
-                    paddingRight,
-                    paddingBottom
-                )
-            } else if (field) {
-                setPadding(
-                    paddingLeft,
-                    (paddingTop - TEXT_SIZE - TEXT_TOP).toInt(), paddingRight, paddingBottom
-                )
-            }
+            if (value != field) {
+                if (value) {
+                    setPadding(
+                        paddingLeft,
+                        (paddingTop + TEXT_SIZE + TEXT_TOP).toInt(),
+                        paddingRight,
+                        paddingBottom
+                    )
+                } else {
+                    setPadding(
+                        paddingLeft,
+                        (paddingTop - TEXT_SIZE - TEXT_TOP).toInt(), paddingRight, paddingBottom
+                    )
+                }
 
-            field = value
+                field = value
+            }
         }
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).also {
