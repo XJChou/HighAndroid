@@ -13,8 +13,10 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/animation" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/clipcamera" />
             <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/compose" />
             <option value="$PROJECT_DIR$/customlayout" />
             <option value="$PROJECT_DIR$/materialedittext" />
             <option value="$PROJECT_DIR$/path" />
