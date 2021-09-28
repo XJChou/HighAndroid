@@ -29,17 +29,14 @@ task clean(type: Delete) {
 // 2、定义阶段/配置阶段 [执行 include项目中每个gradle] => 找到任务的有向无环图
 // afterEvaluate{} 【在第二阶段和第三阶段之间执行】
 // 3、执行阶段 => 执行任务
-
 afterEvaluate {
     println "before execute"
 }
 
-task test1() {
-    doLast {
-//        println "execute test1"
-    }
-//    println "prepare1"
+
+
+
+// 要在第一阶段设置值才能使用 gradlew {taskName} -P key=value
+ext {
+    fullBuild = true
 }
-
-
-
