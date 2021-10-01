@@ -67,14 +67,8 @@ class TabLayout(context: Context, attrs: AttributeSet) : ViewGroup(context, attr
      * 测量子view和自身的宽高
      */
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val parentWidth = when (MeasureSpec.getMode(widthMeasureSpec)) {
-            MeasureSpec.AT_MOST, MeasureSpec.EXACTLY -> {
-                MeasureSpec.getSize(widthMeasureSpec)
-            }
-            else -> {
-                Int.MAX_VALUE
-            }
-        }
+        val mode = MeasureSpec.getMode(widthMeasureSpec)
+        val size = MeasureSpec.getSize(widthMeasureSpec)
 
         lefts.clear()
         tops.clear()
@@ -98,14 +92,14 @@ class TabLayout(context: Context, attrs: AttributeSet) : ViewGroup(context, attr
                 getMeasureSpec(child.layoutParams.height, heightMeasureSpec)
             )
 //            measureChild(child, widthMeasureSpec, heightMeasureSpec)
-            measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, 0)
+//            measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, 0)
 
             /* 2、计算 view 的 left 和 top 布局 */
             val childMeasuredWidth = child.measuredWidth
             val childMeasuredHeight = child.measuredHeight
 
             /* 需要换行才能撑满了 */
-            if (childMeasuredWidth + start > parentWidth) {
+            if (mode != MeasureSpec.UNSPECIFIED && childMeasuredWidth + start > size) {
                 top += maxLineHeight
 
                 start = 0
@@ -125,7 +119,10 @@ class TabLayout(context: Context, attrs: AttributeSet) : ViewGroup(context, attr
         }
 
         /* 3、得出算出父空间整体的宽高 */
-        setMeasuredDimension(maxWidth, top + maxLineHeight)
+        setMeasuredDimension(
+            resolveSize(maxWidth, widthMeasureSpec),
+            resolveSize(top + maxLineHeight, heightMeasureSpec)
+        )
     }
 
 
