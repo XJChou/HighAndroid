@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HighAndroid">
         <activity
+            android:name=".LayoutGroupActivity"
+            android:exported="true" />
+        <activity
+            android:name=".LayoutViewActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

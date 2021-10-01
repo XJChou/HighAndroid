@@ -6,12 +6,14 @@ import androidx.appcompat.widget.AppCompatImageView
 import kotlin.math.min
 
 /**
- * 正方形ImageView,
- * 但不符合开发者所约定的内容
+ * 正方形ImageView
  */
 class SquareImageView(context: Context, attrs: AttributeSet) :
     AppCompatImageView(context, attrs) {
 
+    /**
+     * 可以让父view感知
+     */
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val width = measuredWidth
@@ -19,5 +21,15 @@ class SquareImageView(context: Context, attrs: AttributeSet) :
         val size = min(width, height)
         setMeasuredDimension(size, size)
     }
+//
+//    /**
+//     * 父view不可感知
+//     */
+//    override fun layout(l: Int, t: Int, r: Int, b: Int) {
+//        val width = r - l
+//        val height = b - t
+//        val size = min(width, height)
+//        super.layout(l, t, l + size, t + size)
+//    }
 
 }
