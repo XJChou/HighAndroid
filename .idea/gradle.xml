@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/materialedittext" />
             <option value="$PROJECT_DIR$/path" />
             <option value="$PROJECT_DIR$/text" />
+            <option value="$PROJECT_DIR$/touch" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
