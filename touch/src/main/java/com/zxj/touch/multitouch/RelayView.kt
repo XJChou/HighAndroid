@@ -9,6 +9,7 @@ import android.view.View
 import com.zxj.common.decodeResource
 import com.zxj.common.dp
 import com.zxj.touch.R
+import java.util.*
 
 /**
  * 接力型
@@ -25,6 +26,11 @@ class RelayView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var lastX = 0f
     private var lastY = 0f
 
+    /**
+     * 存储手指顺序
+     */
+    private var queue = LinkedList<Int>()
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return onTouchEventNormal(event)
 //        return onTouchEventError(event)
@@ -36,7 +42,12 @@ class RelayView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private fun onTouchEventNormal(event: MotionEvent): Boolean {
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
+                if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                    resetTouchData()
+                }
+
                 lastDownId = event.getPointerId(event.actionIndex)
+                queue.addLast(lastDownId)
 
                 // 每次 down 和 pointerDown 的时候需要更新下 lastX
                 lastX = event.getX(event.actionIndex)
@@ -44,8 +55,9 @@ class RelayView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             }
 
             MotionEvent.ACTION_MOVE -> {
-                val nowX = event.getX(event.findPointerIndex(lastDownId))
-                val nowY = event.getY(event.findPointerIndex(lastDownId))
+                val index = event.findPointerIndex(lastDownId)
+                val nowX = event.getX(index)
+                val nowY = event.getY(index)
                 offsetX += nowX - lastX
                 offsetY += nowY - lastY
                 invalidate()
@@ -55,20 +67,28 @@ class RelayView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             }
 
             MotionEvent.ACTION_POINTER_UP -> {
-                // 如果是当前手指需要换最后一根手指
-                if (lastDownId == event.getPointerId(event.actionIndex)) {
-                    lastDownId = event.getPointerId(event.pointerCount - 2)
+                val pointId = event.getPointerId(event.actionIndex)
+                queue.remove(pointId)
 
-                    lastX = event.getX(event.findPointerIndex(lastDownId))
-                    lastY = event.getY(event.findPointerIndex(lastDownId))
+                if (lastDownId == pointId) {
+                    lastDownId = queue.peekLast()
+
+                    val index = event.findPointerIndex(lastDownId)
+                    lastX = event.getX(index)
+                    lastY = event.getY(index)
                 }
             }
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                lastDownId = 0
+                resetTouchData()
             }
         }
         return true
+    }
+
+    private fun resetTouchData() {
+        lastDownId = 0
+        queue.clear()
     }
 
     /**
