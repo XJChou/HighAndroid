@@ -57,11 +57,15 @@ class SelfView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {
                 val pointerId = event.getPointerId(event.actionIndex)
+                sparseArray[pointerId].reset()
                 sparseArray.remove(pointerId)
                 invalidate()
             }
 
             MotionEvent.ACTION_CANCEL -> {
+                sparseArray.forEach { _, value ->
+                    value.reset()
+                }
                 sparseArray.removeAtRange(0, sparseArray.size())
                 invalidate()
             }
@@ -74,7 +78,7 @@ class SelfView(context: Context, attrs: AttributeSet) : View(context, attrs) {
      */
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
-        sparseArray.forEach { key, value ->
+        sparseArray.forEach { _, value ->
             canvas.drawPath(value, paint)
         }
     }
