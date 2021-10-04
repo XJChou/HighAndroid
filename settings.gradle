@@ -3,7 +3,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
     }
 }
 rootProject.name = "HighAndroid"
@@ -14,3 +13,6 @@ include ':path'
 include ':clipcamera'
 include ':animation'
 include ':materialedittext'
+include ':customlayout'
+include ':compose'
+include ':touch'

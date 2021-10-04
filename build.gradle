@@ -1,18 +1,37 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    ext.kotlin_version = '1.5.30'
+    ext {
+        compose_version = '1.0.1'
+    }
+
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.1"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+// gradle执行脚本阶段
+// 1、初始化阶段【找有哪些项目 setting.gradle，执行include方法】 => 找到有哪些项目加进来
+// setting.gradle 最后写代码【在第一阶段和第二阶段之间】
+// 2、定义阶段/配置阶段 [执行 include项目中每个gradle] => 找到任务的有向无环图
+// afterEvaluate{} 【在第二阶段和第三阶段之间执行】
+// 3、执行阶段 => 执行任务
+afterEvaluate {
+    println "before execute"
+}
+
+
+
+// 要在第一阶段设置值才能使用 gradlew {taskName} -P key=value
+ext {
+    fullBuild = true
 }

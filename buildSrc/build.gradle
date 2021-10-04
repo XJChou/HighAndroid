@@ -1,0 +1,35 @@
+//apply plugin: 'java-gradle-plugin'
+apply plugin: 'kotlin'
+
+java {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Transform 是 android google的插件
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21"
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+//    compileOnly gradleApi()
+//    compileOnly localGroovy()
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+//    implementation "com.android.tools.build:gradle:4.0.0-beta01"
+    implementation "com.android.tools.build:gradle:7.0.1"
+
+//    compileOnly "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21"
+}
+
