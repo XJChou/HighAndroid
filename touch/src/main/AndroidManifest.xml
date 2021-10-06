@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HighAndroid">
         <activity
+            android:name=".scalable.ScalableActivity"
+            android:exported="true" />
+        <activity
             android:name=".multitouch.MultiTouchActivity"
             android:exported="true" />
         <activity
