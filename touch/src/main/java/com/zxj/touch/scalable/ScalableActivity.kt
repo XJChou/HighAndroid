@@ -1,16 +1,12 @@
-package com.zxj.touch.scalable;
+package com.zxj.touch.scalable
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.zxj.touch.R
 
-import android.os.Bundle;
-
-import com.zxj.touch.R;
-
-public class ScalableActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scalable);
+class ScalableActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_scalable)
     }
 }
