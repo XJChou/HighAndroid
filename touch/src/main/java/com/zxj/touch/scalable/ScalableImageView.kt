@@ -219,7 +219,7 @@ class ScalableImageView(context: Context, attrs: AttributeSet) : View(context, a
         ) = true.also {
             /* 用户期望是看到自己滑动与图片移动的距离是一致的，所以直接减去移动的距离即可 */
             offsetX = checkOffsetX(offsetX - distanceX)
-            offsetY = checkOffsetX(offsetY - distanceY)
+            offsetY = checkOffsetY(offsetY - distanceY)
         }
 
         /**
