@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".drag.DragActivity">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_left"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:background="#ff3"
+        android:gravity="center"
+        android:maxEms="1"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="20dp"
+        android:text="左出界区"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_right"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:background="#ff3"
+        android:ems="1"
+        android:gravity="center"
+        android:maxEms="1"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="20dp"
+        android:text="右出界区"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ff3"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="世界波"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_center"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:maxHeight="300dp"
+        android:scrollbars="vertical"
+        android:textColor="#191919"
+        android:fadeScrollbars="true"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_role"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/rengwuxian"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
