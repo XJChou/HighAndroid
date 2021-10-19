@@ -1,9 +1,11 @@
 package com.zxj.common
 
+import android.animation.TypeEvaluator
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Camera
+import android.graphics.Point
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -46,6 +48,15 @@ class FloatInvalidate(var field: Float = 0f) {
         view.invalidate()
     }
 
+}
+
+class PointEvaluator : TypeEvaluator<Point> {
+    override fun evaluate(fraction: Float, startValue: Point, endValue: Point): Point {
+        return Point(
+            (startValue.x + (endValue.x - startValue.x) * fraction).toInt(),
+            (startValue.y + (endValue.y - startValue.y) * fraction).toInt()
+        )
+    }
 }
 
 inline fun Camera.withSave(block: Camera.() -> Unit) {
