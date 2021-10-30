@@ -39,7 +39,8 @@ BasicMeasure[真正的测量调度类]，对于可变的尺寸，测量最少为
 实际出现问题的代码在 ConstraintLayout 中的 Measurer 内部类中，measure方法中 <br/>
 <img src="./images/ConstraintLayout_error.jpg" />
 <p/>
-而当高度设置为 android:layout_height="wrap_content"的时候，didVerticalWrap为true，widget.wrapMeasure[VERTICAL + 2] != 0，所以不会出现此情况第三次的时候使用父容器宽度测量
+而当高度设置为 android:layout_height="wrap_content"的时候，didVerticalWrap为true，widget.wrapMeasure[VERTICAL + 2] != 0，所以不会出现此情况第三次的时候使用父容器宽度测量<br/>
+其实出现问题的的本质是，measure TextView的宽度和 layout TextView的宽度不是同一个，而TextView的绘制文本的layout是在measure的时候就创建好了，layout的时候没有判断，省略号宽度和当前宽度比较
 
 <!-- 解决方法 -->
 
