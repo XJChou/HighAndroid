@@ -49,6 +49,10 @@ BasicMeasure[真正的测量调度类]，对于可变的尺寸，测量最少为
 </p>
 </p>
 
+实际出现问题的代码在 ConstraintLayout 中的 Measurer 内部类中，measure方法中 <br/>
+<img src="./images/ConstraintLayout_error.jpg" />
+<p/>
+
 <!-- 解决方法 -->
 
 <!-- Constraint主要继承图 -->
