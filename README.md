@@ -18,3 +18,7 @@ Android进阶Demo【HenCoder 第八期】
 <h3>ConstraintLayout</h3>
 </p>
 <h4><a href='https://github.com/XJChou/HighAndroid/blob/master/constraint/README.md'>关于ConstraintLayout中TextView省略号问题</a></h4>
+<div>
+    <img width="300px" src='https://github.com/XJChou/HighAndroid/blob/master/constraint/images/Constraint_validate.gif'/>
+    <img width="300px" src='https://github.com/XJChou/HighAndroid/blob/master/constraint/images/Constraint_invalidate.gif'/>
+</div>
