@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--  搜索历史  -->
+        <TextView
+            android:id="@+id/tv_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="搜索历史[Guideline+Barrier]"
+            android:textColor="#888"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_vertical_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_history_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="tv_history" />
+
+        <TextView
+            android:id="@+id/tv_history_1"
+            style="@style/ConstraintLayout_TextView_SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="15dp"
+            android:text="大海贼之雷黄小说大海贼之雷黄小说"
+            app:layout_constraintEnd_toStartOf="@id/guideline_vertical_center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier_history_content" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="0dp"
+            android:layout_marginVertical="2dp"
+            android:background="#aaa"
+            app:layout_constraintBottom_toBottomOf="@id/tv_history_1"
+            app:layout_constraintStart_toEndOf="@id/guideline_vertical_center"
+            app:layout_constraintTop_toTopOf="@id/tv_history_1" />
+
+        <TextView
+            android:id="@+id/tv_history_2"
+            style="@style/ConstraintLayout_TextView_SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:text="元气森林补偿方式元气森林补偿方式元气森林补偿方式"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline_vertical_center"
+            app:layout_constraintTop_toTopOf="@id/tv_history_1" />
+
+        <TextView
+            android:id="@+id/tv_history_3"
+            style="@style/ConstraintLayout_TextView_SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="广东高速限时禁行新规定"
+            app:layout_constraintEnd_toEndOf="@id/tv_history_1"
+            app:layout_constraintStart_toStartOf="@id/tv_history_1"
+            app:layout_constraintTop_toBottomOf="@id/tv_history_1" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_guess_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="tv_history_1,tv_history_2,tv_history_3" />
+
+
+        <!--  搜索猜你搜  -->
+        <TextView
+            android:id="@+id/tv_guess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20dp"
+            android:text="猜你想搜[Flow(VirtualLayout)]"
+            android:textColor="#888"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier_guess_top" />
+
+        <ImageView
+            android:id="@+id/iv_invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:adjustViewBounds="true"
+            android:padding="5dp"
+            android:src="@drawable/ic_invisible"
+            app:layout_constraintBottom_toBottomOf="@id/tv_guess"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_guess" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow_guess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:constraint_referenced_ids="tv_guess_1,tv_guess_2,tv_guess_3,tv_guess_4,tv_guess_5"
+            app:flow_horizontalBias="0"
+            app:flow_horizontalGap="15dp"
+            app:flow_horizontalStyle="packed"
+            app:flow_verticalGap="10dp"
+            app:flow_wrapMode="chain"
+            app:layout_constraintTop_toBottomOf="@id/tv_guess" />
+
+        <TextView
+            android:id="@+id/tv_guess_1"
+            style="@style/GuessLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S11深圳英雄联盟小镇" />
+
+        <TextView
+            android:id="@+id/tv_guess_2"
+            style="@style/GuessLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="男子花网购螃蟹" />
+
+        <TextView
+            android:id="@+id/tv_guess_3"
+            style="@style/GuessLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="武汉小胡说车" />
+
+        <TextView
+            android:id="@+id/tv_guess_4"
+            style="@style/GuessLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我要做海贼王的男人" />
+
+        <TextView
+            android:id="@+id/tv_guess_5"
+            style="@style/GuessLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="陈翔六点半" />
+
+
+        <!--  layer  -->
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_recommend_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="flow_guess" />
+
+        <!--  星体说明  -->
+        <TextView
+            android:id="@+id/tv_explanation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20dp"
+            android:text="星体说明[Layer+PlaceHolder]"
+            android:textColor="#888"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier_recommend_top" />
+
+        <androidx.constraintlayout.widget.Placeholder
+            android:id="@+id/placeholder_explanation"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            app:content="@id/iv_sun"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_explanation" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow_explanation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:constraint_referenced_ids="iv_sun, iv_earth, iv_moon"
+            app:flow_wrapMode="none"
+            app:layout_constraintTop_toBottomOf="@id/placeholder_explanation" />
+
+        <androidx.constraintlayout.helper.widget.Layer
+            android:id="@+id/layer_explanation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="1.5"
+            app:constraint_referenced_ids="iv_sun, iv_earth, iv_moon" />
+
+        <ImageView
+            android:id="@+id/iv_sun"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_sun" />
+
+        <ImageView
+            android:id="@+id/iv_earth"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_earth" />
+
+        <ImageView
+            android:id="@+id/iv_moon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_moon" />
+
+        <TextView
+            android:id="@+id/tv_explanation_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:paddingHorizontal="20dp"
+            android:text="123123123123123123"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flow_explanation" />
+
+        <!--  比例  -->
+        <TextView
+            android:id="@+id/tv_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="其他属性"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_explanation_desc" />
+
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:flow_verticalGap="10dp"
+            app:flow_horizontalStyle="packed"
+            app:flow_verticalStyle="packed"
+            app:flow_verticalBias="0"
+            android:orientation="vertical"
+            app:constraint_referenced_ids="other_1, other_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_radio" />
+
+        <TextView
+            android:id="@+id/other_1"
+            android:layout_width="0dp"
+            android:text="width = 0.8宽"
+            android:layout_height="40dp"
+            app:layout_constraintWidth_percent="0.6"
+            android:background="#ff3"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/other_2"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:text="宽高比 2:1"
+            app:layout_constraintDimensionRatio="h,2:1"
+            android:background="#ff3"
+            android:gravity="center"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

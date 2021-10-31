@@ -14,3 +14,7 @@ Android进阶Demo【HenCoder 第八期】
 </p>
 相关技术：</p>
     View.OnDragListener：View自带的拖拽，主要用于跨应用传输数据【扔老师：如果是分屏的时候，可以把相册的内容，直接拖到微信聊天框，可以直接发照片】 </p>
+
+<h3>ConstraintLayout</h3>
+</p>
+<h4><a href='https://github.com/XJChou/HighAndroid/blob/master/constraint/README.md'>关于ConstraintLayout中TextView省略号问题</a></h4>

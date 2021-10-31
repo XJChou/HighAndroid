@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ConstraintLayout_TextView_SingleLine">
+        <item name="layout_constrainedWidth">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="layout_constraintHorizontal_bias">0</item>
+        <item name="android:textColor">#333</item>
+        <item name="layout_constraintHorizontal_weight">1</item>
+    </style>
+
+    <declare-styleable name="RoundTextView">
+        <attr name="round" format="dimension" />
+        <attr name="roundBackground" format="color" />
+    </declare-styleable>
+
+    <style name="GuessLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#333</item>
+    </style>
+
+</resources>
