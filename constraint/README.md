@@ -18,14 +18,14 @@
 <br/>
 
 ConstraintLayout 的测量中，其实有四种测量模式，分别是【ConstraintWidget.DimensionBehaviour类中的FIXED, WRAP_CONTENT, MATCH_CONSTRAINT, MATCH_PARENT】，以宽度为例，以为由下面的六种模式转换而来的：
-<ol>
+<ul>
   <li>当 android:layout_width="100dp" 的时候，此时为固定值,对于 view 的 ConstraintWidget 中标记此模式为 ConstraintWidget.DimensionBehaviour.FIXED</li>
   <li>当 android:layout_width="0dp" 的时候，对于 view 的 ConstraintWidget 中标记此模式为 ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT</li>     
   <li>当 android:layout_width="wrap_content" 和 app:layout_constrainedWidth="false" 的时候，对于 view 的 ConstraintWidget 中标记此模式ConstraintWidget.DimensionBehaviour.WRAP_CONTENT</li>
   <li>当 android:layout_width="wrap_content" 和 app:layout_constrainedWidth="true" 的时候，对于 view 的 ConstraintWidget 中标记此模式为 ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT</li>
   <li>当 android:layout_width="match_parent" 和 app:layout_constrainedWidth="true" 的时候，对于 view 的 ConstraintWidget 中标记此模式为 ConstraintWidget.DimensionBehaviour.MATCH_CONSTRAINT </li>
   <li>当 android:layout_width="match_parent" 和 app:layout_constrainedWidth="false" 的时候，对于 view 的 ConstraintWidget 中标记此模式为 ConstraintWidget.DimensionBehaviour.MATCH_PARENT <br/></li>
-</ol>
+</ul>
 
 <br/>
 <br/>
