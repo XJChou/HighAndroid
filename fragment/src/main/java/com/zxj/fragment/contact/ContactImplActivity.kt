@@ -1,8 +1,12 @@
 package com.zxj.fragment.contact
 
 import android.content.Intent
+import android.graphics.Matrix
+import android.graphics.RectF
 import android.os.Bundle
+import android.os.Parcelable
 import android.transition.Slide
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -10,15 +14,21 @@ import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.app.SharedElementCallback
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.zxj.fragment.R
+import com.zxj.fragment.bean.SharedElementItem
 import com.zxj.fragment.databinding.ActivityContactImplBinding
 import com.zxj.fragment.databinding.ItemContactsBinding
 
+/**
+ * activity.setExitSharedElementCallback
+ * activity.setEnterSharedElementCallback
+ */
 class ContactImplActivity : AppCompatActivity() {
 
     private val mContactsList = initContacts()
@@ -76,9 +86,59 @@ class ContactImplActivity : AppCompatActivity() {
         ActivityContactImplBinding.inflate(layoutInflater)
     }
 
+    private val exitSharedElementCallback = object: SharedElementCallback() {
+        /**
+         * 最先调用，用于动画开始前替换ShareElements，比如在Activity B翻过若干页大图之后，返回Activity A
+         * 的时候需要缩小回到对应的小图，就需要在这里进行替换
+         */
+        override fun onMapSharedElements(
+            names: MutableList<String>,
+            sharedElements: MutableMap<String, View>
+        ) {
+            super.onMapSharedElements(names, sharedElements)
+        }
+
+
+        /**
+         * 在这里会把ShareElement里值得记录的信息存到为Parcelable格式，以发送到Activity B
+         * 默认处理规则是ImageView会特殊记录Bitmap、ScaleType、Matrix，其它View只记录大小和位置
+         */
+        override fun onCaptureSharedElementSnapshot(
+            sharedElement: View,
+            viewToGlobalMatrix: Matrix,
+            screenBounds: RectF
+        ): Parcelable {
+            val originParcelable = super.onCaptureSharedElementSnapshot(
+                sharedElement,
+                viewToGlobalMatrix,
+                screenBounds
+            )
+            return SharedElementItem(originParcelable).save(sharedElement)
+        }
+
+        /**
+         * 表示ShareElement已经全部就位，可以开始动画了
+         */
+        override fun onSharedElementsArrived(
+            sharedElementNames: MutableList<String>?,
+            sharedElements: MutableList<View>?,
+            listener: OnSharedElementsReadyListener?
+        ) {
+            super.onSharedElementsArrived(sharedElementNames, sharedElements, listener)
+        }
+
+        /**
+         * 在之前的步骤里(onMapSharedElements)被从ShareElements列表里除掉的View会在此回调，
+         * 不处理的话默认进行alpha动画消失
+         */
+        override fun onRejectSharedElements(rejectedSharedElements: MutableList<View>?) {
+            super.onRejectSharedElements(rejectedSharedElements)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         /* 默认打开 */
-        requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
         window.exitTransition = Slide(Gravity.LEFT)
 
         super.onCreate(savedInstanceState)
@@ -86,15 +146,20 @@ class ContactImplActivity : AppCompatActivity() {
 
         binding.contactsRecycler.layoutManager = LinearLayoutManager(this)
         binding.contactsRecycler.adapter = ContactsAdapter()
+
+        this.setExitSharedElementCallback(exitSharedElementCallback)
     }
 
     private fun gotoDetailActivity(contacts: Contacts, avatarImg: View, nameTxt: View) {
         val intent = Intent(this, DetailImplActivity::class.java)
+        intent.putExtra("contacts", contacts)
         val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
             this,
             androidx.core.util.Pair(avatarImg, avatarImg.transitionName),
             androidx.core.util.Pair(nameTxt, nameTxt.transitionName)
         ).toBundle()
+
+        // 退出的时候回调
         ActivityCompat.startActivity(this, intent, bundle)
     }
 

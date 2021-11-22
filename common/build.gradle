@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -47,4 +48,7 @@ dependencies {
     api "androidx.fragment:fragment-ktx:1.3.0"
 //    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0-rc01"
 
+    // 网络相关
+    api 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 }

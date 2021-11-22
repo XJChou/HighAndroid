@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="shared_element_snapshot" type="id" />
+    <item name="shared_element_snapshot_start" type="id" />
+    <item name="shared_element_snapshot_end" type="id" />
+</resources>

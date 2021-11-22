@@ -28,3 +28,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+interface Test {
+    suspend fun test()
+}
