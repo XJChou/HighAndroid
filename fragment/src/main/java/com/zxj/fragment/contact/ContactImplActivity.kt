@@ -86,7 +86,7 @@ class ContactImplActivity : AppCompatActivity() {
         ActivityContactImplBinding.inflate(layoutInflater)
     }
 
-    private val exitSharedElementCallback = object: SharedElementCallback() {
+    private val exitSharedElementCallback = object : SharedElementCallback() {
         /**
          * 最先调用，用于动画开始前替换ShareElements，比如在Activity B翻过若干页大图之后，返回Activity A
          * 的时候需要缩小回到对应的小图，就需要在这里进行替换
@@ -148,6 +148,7 @@ class ContactImplActivity : AppCompatActivity() {
         binding.contactsRecycler.adapter = ContactsAdapter()
 
         this.setExitSharedElementCallback(exitSharedElementCallback)
+
     }
 
     private fun gotoDetailActivity(contacts: Contacts, avatarImg: View, nameTxt: View) {

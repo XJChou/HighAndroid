@@ -19,8 +19,8 @@ class SharedElementItem(val originParcelable: Parcelable? = null) : Parcelable {
         private const val SHARED_ELEMENT_ORIGIN_TYPE = "SHARED_ELEMENT_ORIGIN"
         private const val ORIGIN_TYPE_TEXT_VIEW = 1
 
-        private const val TEXT_VIEW_SIZE = "TEXT_SIZE"
-        private const val TEXT_VIEW_COLOR = "TEXT_COLOR"
+        const val TEXT_VIEW_SIZE = "TEXT_SIZE"
+        const val TEXT_VIEW_COLOR = "TEXT_COLOR"
     }
 
     private val bundle = Bundle()
@@ -37,6 +37,14 @@ class SharedElementItem(val originParcelable: Parcelable? = null) : Parcelable {
             }
         }
         return this
+    }
+
+    fun getInt(key: String): Int {
+        return bundle.getInt(key)
+    }
+
+    fun getFloat(key: String): Float {
+        return bundle.getFloat(key)
     }
 
     /**

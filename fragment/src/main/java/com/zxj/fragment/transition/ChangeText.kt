@@ -10,6 +10,8 @@ import android.util.Property
 import android.util.TypedValue
 import android.view.ViewGroup
 import android.widget.TextView
+import com.zxj.fragment.R
+import com.zxj.fragment.bean.SharedElementItem
 
 class ChangeText : Transition() {
 
@@ -45,11 +47,28 @@ class ChangeText : Transition() {
     }
 
     override fun captureStartValues(values: TransitionValues) {
-        captureValues(values)
+        val snapshot = values.view.getTag(R.id.shared_element_snapshot_start)
+                as? SharedElementItem
+        if (snapshot == null) {
+            captureValues(values)
+        } else {
+            captureValues(values, snapshot)
+        }
     }
 
     override fun captureEndValues(values: TransitionValues) {
-        captureValues(values)
+        val snapshot = values.view.getTag(R.id.shared_element_snapshot_end)
+                as? SharedElementItem
+        if (snapshot == null) {
+            captureValues(values)
+        } else {
+            captureValues(values, snapshot)
+        }
+    }
+
+    private fun captureValues(values: TransitionValues, item: SharedElementItem) {
+        values.values[TEXT_COLOR_NAME] = item.getInt(SharedElementItem.TEXT_VIEW_COLOR)
+        values.values[TEXT_SIZE_NAME] = item.getFloat(SharedElementItem.TEXT_VIEW_SIZE)
     }
 
     private fun captureValues(values: TransitionValues) {

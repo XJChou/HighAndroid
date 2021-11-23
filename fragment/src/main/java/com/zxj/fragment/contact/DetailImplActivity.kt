@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.zxj.fragment.R
 import com.zxj.fragment.bean.SharedElementItem
 import com.zxj.fragment.databinding.ActivityDetailImplBinding
+import com.zxj.fragment.transition.ChangeOnlineImageTransition
 import com.zxj.fragment.transition.ChangeText
 
 class DetailImplActivity : AppCompatActivity() {
@@ -47,22 +48,12 @@ class DetailImplActivity : AppCompatActivity() {
             sharedElements.forEachIndexed { i, view ->
                 // 开始便利
                 val snapshot = sharedElementSnapshots[i]
-                when (isEnter) {
-                    true -> {
-                        val start = snapshot.getTag(R.id.shared_element_snapshot_start)
-                        view.setTag(R.id.shared_element_snapshot_start, start)
+                if (isEnter) {
+                    val start = snapshot.getTag(R.id.shared_element_snapshot_start)
+                    view.setTag(R.id.shared_element_snapshot_start, start)
 
-                        view.setTag(
-                            R.id.shared_element_snapshot_end,
-                            SharedElementItem().save(view)
-                        )
-
-                        (start as SharedElementItem).restore(view)
-                    }
-                    else -> {
-                        val start = view.getTag(R.id.shared_element_snapshot_start)
-                        (start as SharedElementItem).restore(view)
-                    }
+                    val end = SharedElementItem().save(view)
+                    view.setTag(R.id.shared_element_snapshot_end, end)
                 }
             }
         }
@@ -74,12 +65,14 @@ class DetailImplActivity : AppCompatActivity() {
             sharedElementSnapshots: MutableList<View>
         ) {
             super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots)
-
-            // 结束便利
             sharedElements.forEachIndexed { i, view ->
-                if (isEnter) {
-                    val target = view.getTag(R.id.shared_element_snapshot_end)
-                    (target as SharedElementItem).restore(view)
+                if (!isEnter) {
+                    // 返回的时候交换回去
+                    val end = view.getTag(R.id.shared_element_snapshot_start)
+                    val start = view.getTag(R.id.shared_element_snapshot_end)
+
+                    view.setTag(R.id.shared_element_snapshot_start, start)
+                    view.setTag(R.id.shared_element_snapshot_end, end)
                 }
             }
             isEnter = false
@@ -99,15 +92,16 @@ class DetailImplActivity : AppCompatActivity() {
         window.enterTransition = Fade()
 
         val transitionSet = TransitionSet()
-        transitionSet.addTransition(ChangeClipBounds())
-        transitionSet.addTransition(ChangeTransform())
-        transitionSet.addTransition(ChangeBounds())
-        transitionSet.addTransition(ChangeText())
-//        if (true) {
-//            transitionSet.addTransition(ChangeImageTransform())
-//        } else {
-//            transitionSet.addTransition(ChangeOnlineImageTransition())
-//        }
+        transitionSet
+            .addTransition(ChangeClipBounds())
+            .addTransition(ChangeTransform())
+            .addTransition(ChangeBounds())
+            .addTransition(ChangeText())
+        if (true) {
+            transitionSet.addTransition(ChangeImageTransform())
+        } else {
+            transitionSet.addTransition(ChangeOnlineImageTransition())
+        }
         window.sharedElementEnterTransition = transitionSet
     }
 
