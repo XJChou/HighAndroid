@@ -1,8 +1,7 @@
-package com.zxj.fragment.bean
+package com.zxj.common.bean
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import kotlinx.android.parcel.Parcelize
@@ -13,7 +12,7 @@ import kotlinx.android.parcel.Parcelize
  * 新内容
  */
 @Parcelize
-class SharedElementItem(val originParcelable: Parcelable? = null) : Parcelable {
+class SharedElementItem private constructor(val originParcelable: Parcelable? = null) : Parcelable {
 
     companion object {
         private const val SHARED_ELEMENT_ORIGIN_TYPE = "SHARED_ELEMENT_ORIGIN"
@@ -21,6 +20,9 @@ class SharedElementItem(val originParcelable: Parcelable? = null) : Parcelable {
 
         const val TEXT_VIEW_SIZE = "TEXT_SIZE"
         const val TEXT_VIEW_COLOR = "TEXT_COLOR"
+
+        fun create(view: View, originParcelable: Parcelable? = null) =
+            SharedElementItem(originParcelable).save(view)
     }
 
     private val bundle = Bundle()
@@ -28,7 +30,7 @@ class SharedElementItem(val originParcelable: Parcelable? = null) : Parcelable {
     /**
      * 存储内容View关键信息
      */
-    fun save(view: View): SharedElementItem {
+    private fun save(view: View): SharedElementItem {
         when (view) {
             is TextView -> {
                 bundle.putInt(SHARED_ELEMENT_ORIGIN_TYPE, ORIGIN_TYPE_TEXT_VIEW)
@@ -39,27 +41,7 @@ class SharedElementItem(val originParcelable: Parcelable? = null) : Parcelable {
         return this
     }
 
-    fun getInt(key: String): Int {
-        return bundle.getInt(key)
-    }
+    fun getInt(key: String) = bundle.getInt(key)
 
-    fun getFloat(key: String): Float {
-        return bundle.getFloat(key)
-    }
-
-    /**
-     * 从关键信息恢复内容
-     */
-    fun restore(view: View): SharedElementItem {
-        val type = bundle.getInt(SHARED_ELEMENT_ORIGIN_TYPE)
-        when {
-            type == ORIGIN_TYPE_TEXT_VIEW && view is TextView -> {
-                val textSize = bundle.getFloat(TEXT_VIEW_SIZE)
-                val textColor = bundle.getInt(TEXT_VIEW_COLOR)
-                view.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
-                view.setTextColor(textColor)
-            }
-        }
-        return this
-    }
+    fun getFloat(key: String) = bundle.getFloat(key)
 }

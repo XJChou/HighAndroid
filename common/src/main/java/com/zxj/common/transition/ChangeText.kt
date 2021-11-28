@@ -1,4 +1,4 @@
-package com.zxj.fragment.transition
+package com.zxj.common.transition
 
 import android.animation.Animator
 import android.animation.AnimatorSet
@@ -10,8 +10,8 @@ import android.util.Property
 import android.util.TypedValue
 import android.view.ViewGroup
 import android.widget.TextView
-import com.zxj.fragment.R
-import com.zxj.fragment.bean.SharedElementItem
+import com.zxj.common.R
+import com.zxj.common.bean.SharedElementItem
 
 class ChangeText : Transition() {
 

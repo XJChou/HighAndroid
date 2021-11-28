@@ -1,4 +1,4 @@
-package com.zxj.fragment.contact
+package com.zxj.fragment.contact.fragment
 
 import android.os.Bundle
 import android.view.Window
@@ -11,8 +11,6 @@ class ContactActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         super.onCreate(savedInstanceState)
-//        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
-//        window.sharedElementsUseOverlay = true
         setContentView(R.layout.activity_contact)
 
         val contactFragment = ContactFragment()

@@ -1,27 +1,27 @@
-package com.zxj.fragment.contact
+package com.zxj.fragment.contact.fragment
 
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.SharedElementCallback
 import androidx.core.view.ViewCompat
-import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.zxj.common.commit
 import com.zxj.fragment.R
+import com.zxj.fragment.contact.Contacts
 import com.zxj.fragment.databinding.FragmentContactBinding
 import com.zxj.fragment.databinding.ItemContactsBinding
 
 /**
  * 问题一：
  * 每次DetailFragment 回到 ContactFragment 的时候都会重走 onCreate相关生命周期
+ *
+ * RecyclerView 加入了 paddingLeft 或者 paddingStart 就解决遮罩问题
  */
 class ContactFragment : Fragment() {
 
@@ -53,7 +53,7 @@ class ContactFragment : Fragment() {
         mContactsList.add(
             Contacts(
                 "Exotic Shorthair", R.drawable.exotic_shorthair,
-                """  大家喜欢叫它加菲猫，憨憨的样子极其可爱。加菲猫(Garfield)是由吉姆·戴维斯(Jim Davis)所创，第一次出现在美国报纸上是在1978年6月19日。它是一只爱说风凉话、好吃、爱睡觉，以及爱捉弄人的大肥猫。无论成人还是孩子都被它的魅力所倾倒。        
+                """  大家喜欢叫它加菲猫，憨憨的样子极其可爱。加菲猫(Garfield)是由吉姆·戴维斯(Jim Davis)所创，第一次出现在美国报纸上是在1978年6月19日。它是一只爱说风凉话、好吃、爱睡觉，以及爱捉弄人的大肥猫。无论成人还是孩子都被它的魅力所倾倒。
        异国短毛猫（加菲猫）起源
        异国短毛猫（加菲猫）是在六十年代的美国，以人工方式将波斯猫等长毛种的猫与美国短毛猫、缅甸猫等交配繁殖出来的品种。当初进行繁殖计划时，异国短毛猫的体形还很瘦弱，波斯猫的饲养者担心纯种波斯会被杂种化，有些繁殖者甚至强烈批评它“有损纯种猫”，因而在1968年禁止交配。当然，还是有人暗暗努力，最后发现用美国短毛猫配种，形体才渐渐成型。直到八十年代，异国短毛猫的品种正式确立，并获得猫协会的认可。外来种猫由于经过很多人的反复繁育，毛色品种很多，几乎猫中所有的毛色都有。在外观上基本继承了波斯猫滑稽造型。除了毛短之外，其它体型、四肢、头脸眼均与波斯猫一样。"""
             )
@@ -80,28 +80,7 @@ class ContactFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         exitTransition = Slide(Gravity.LEFT)
-//        allowEnterTransitionOverlap = false
-//        allowReturnTransitionOverlap = false
-//        reenterTransition = Slide(Gravity.LEFT)
-
-//        enterTransition = Slide(Gravity.LEFT)
-//        returnTransition = Slide(Gravity.LEFT)
-
-//        setEnterSharedElementCallback(object : SharedElementCallback() {
-//
-//        })
-        setExitSharedElementCallback(object: SharedElementCallback() {
-            override fun onMapSharedElements(
-                names: MutableList<String>?,
-                sharedElements: MutableMap<String, View>?
-            ) {
-                super.onMapSharedElements(names, sharedElements)
-                
-            }
-        })
-        binding.contactsRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.contactsRecycler.adapter = ContactsAdapter()
     }
 
@@ -109,13 +88,7 @@ class ContactFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        postponeEnterTransition()
-        container?.doOnPreDraw {
-            startPostponedEnterTransition()
-        }
-        return binding.root
-    }
+    ) = binding.root
 
     private fun gotoDetailActivity(contacts: Contacts, avatarImg: View, nameTxt: View) {
         parentFragmentManager.commit {
@@ -123,7 +96,7 @@ class ContactFragment : Fragment() {
             setReorderingAllowed(true)
             addSharedElement(avatarImg, avatarImg.transitionName)
             addSharedElement(nameTxt, nameTxt.transitionName)
-            replace(R.id.fl_content, detailFragment, "detail")
+            replace(R.id.fl_content, detailFragment, DetailFragment::class.java.simpleName)
             addToBackStack(null)
         }
     }
@@ -149,7 +122,6 @@ class ContactFragment : Fragment() {
 
             nameTxt.text = item.name
             holder.itemView.setOnClickListener {
-//                it.elevation = 100f
                 gotoDetailActivity(item, avatarImg, nameTxt)
             }
             ViewCompat.setTransitionName(avatarImg, "avatar:" + item.name)

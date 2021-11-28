@@ -1,4 +1,4 @@
-package com.zxj.fragment.contact
+package com.zxj.fragment.contact.activity
 
 import android.content.Intent
 import android.graphics.Matrix
@@ -6,7 +6,6 @@ import android.graphics.RectF
 import android.os.Bundle
 import android.os.Parcelable
 import android.transition.Slide
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.zxj.fragment.R
-import com.zxj.fragment.bean.SharedElementItem
+import com.zxj.common.bean.SharedElementItem
+import com.zxj.fragment.contact.Contacts
 import com.zxj.fragment.databinding.ActivityContactImplBinding
 import com.zxj.fragment.databinding.ItemContactsBinding
 
@@ -113,7 +113,7 @@ class ContactImplActivity : AppCompatActivity() {
                 viewToGlobalMatrix,
                 screenBounds
             )
-            return SharedElementItem(originParcelable).save(sharedElement)
+            return SharedElementItem.create(sharedElement,originParcelable)
         }
 
         /**

@@ -1,4 +1,4 @@
-package com.zxj.fragment.contact
+package com.zxj.fragment.contact.activity
 
 import android.content.Context
 import android.os.Bundle
@@ -12,11 +12,16 @@ import androidx.core.view.ViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.zxj.fragment.R
-import com.zxj.fragment.bean.SharedElementItem
+import com.zxj.common.bean.SharedElementItem
+import com.zxj.common.transition.ChangeText
+import com.zxj.fragment.contact.Contacts
 import com.zxj.fragment.databinding.ActivityDetailImplBinding
 import com.zxj.fragment.transition.ChangeOnlineImageTransition
-import com.zxj.fragment.transition.ChangeText
 
+/**
+ * 在Activity 中 Transition相互要独立，不能影响到其他属性，
+ * 比如修改TextView的字体大小，在Wrap_content模式下，会影响宽度和高度，最终导致ChangeBound的获取
+ */
 class DetailImplActivity : AppCompatActivity() {
 
     private val binding by lazy {
@@ -46,13 +51,12 @@ class DetailImplActivity : AppCompatActivity() {
         ) {
             super.onSharedElementStart(sharedElementNames, sharedElements, sharedElementSnapshots)
             sharedElements.forEachIndexed { i, view ->
-                // 开始便利
                 val snapshot = sharedElementSnapshots[i]
                 if (isEnter) {
                     val start = snapshot.getTag(R.id.shared_element_snapshot_start)
                     view.setTag(R.id.shared_element_snapshot_start, start)
 
-                    val end = SharedElementItem().save(view)
+                    val end = SharedElementItem.create(view)
                     view.setTag(R.id.shared_element_snapshot_end, end)
                 }
             }

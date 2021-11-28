@@ -1,7 +1,6 @@
-package com.zxj.fragment.contact
+package com.zxj.fragment.contact.fragment
 
 import android.os.Bundle
-import android.transition.ChangeImageTransform
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,33 +9,32 @@ import androidx.fragment.app.Fragment
 import androidx.transition.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.zxj.common.transition.ChangeTextColor
-import com.zxj.common.transition.ChangeTextSize
+import com.zxj.common.transitionx.ChangeText
 import com.zxj.fragment.R
+import com.zxj.fragment.contact.Contacts
 import com.zxj.fragment.databinding.FragmentDetailBinding
 
+/**
+ * 联系猫版
+ * [1] 遇到问题：列表第一条目被遮挡
+ */
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
-
     companion object {
+        private val TRANSITION = TransitionSet().apply {
+            addTransition(ChangeClipBounds())
+            addTransition(ChangeBounds())
+            addTransition(ChangeTransform())
+            addTransition(ChangeText())
+            addTransition(ChangeImageTransform())
+        }
+
         fun newInstance(contacts: Contacts): DetailFragment {
             val detailFragment = DetailFragment()
             detailFragment.arguments = Bundle().also {
                 it.putParcelable("Contacts", contacts)
             }
-            val transitionSet = TransitionSet()
-            transitionSet.ordering = TransitionSet.ORDERING_TOGETHER
-//            transitionSet.addTransition(ChangeClipBounds())
-            transitionSet.addTransition(ChangeBounds())
-            transitionSet.addTransition(ChangeTransform())
-            transitionSet.addTransition(ChangeTextSize())
-            transitionSet.addTransition(ChangeTextColor())
-//            transitionSet.addTransition(androidx.transition.ChangeImageTransform())
-
-            detailFragment.allowEnterTransitionOverlap = true
-            detailFragment.allowReturnTransitionOverlap = true
-            detailFragment.sharedElementEnterTransition = transitionSet
-
+            detailFragment.sharedElementEnterTransition = TRANSITION
             detailFragment.enterTransition = Fade()
             return detailFragment
         }
