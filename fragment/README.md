@@ -1,4 +1,4 @@
-<p>Demo中的布局、图片和文字<a href=‘https://www.jianshu.com/p/fa1c8deeaa57’>来源</a>，本Demo只研究Activity/Fragment场景下的SharedElement过渡处理</p>
+<p>Demo中的布局、图片和文字(<a href='https://www.jianshu.com/p/fa1c8deeaa57'>来自</a>)，本Demo只研究Activity/Fragment场景下的SharedElement过渡处理</p>
 
 <pre>
     <p>关于自定义Activity SharedElement</p>
