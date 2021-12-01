@@ -9,7 +9,6 @@
                android:scaleType="centerCrop" />
     <FrameLayout
         android:id="@+id/contact"
-        android:layout_marginTop="1px"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:orientation="horizontal"

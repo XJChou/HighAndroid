@@ -22,3 +22,5 @@ Android进阶Demo【HenCoder 第八期】
     <img width="300px" src='https://github.com/XJChou/HighAndroid/blob/master/constraint/images/Constraint_validate.gif'/>
     <img width="300px" src='https://github.com/XJChou/HighAndroid/blob/master/constraint/images/Constraint_invalidate.gif'/>
 </div>
+
+<h3>SharedElement过渡相关</h3>

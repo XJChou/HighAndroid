@@ -27,6 +27,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             addTransition(ChangeTransform())
             addTransition(ChangeText())
             addTransition(ChangeImageTransform())
+            addTransition(ChangePosition())
         }
 
         fun newInstance(contacts: Contacts): DetailFragment {
