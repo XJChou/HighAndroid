@@ -1,11 +1,62 @@
 <p>Demo中的布局、图片和文字(<a href='https://www.jianshu.com/p/fa1c8deeaa57'>来自</a>)，本Demo只研究Activity/Fragment场景下的SharedElement过渡处理</p>
 
-<h3>关于自定义Activity SharedElement遇到的问题</h3>
-<div>
-    <br/>
-    <br/>
-    <br/>
+<h3>关于自定义 Activity SharedElement 遇到的问题</h3>
+<p>自定义 Activity 的 SharedElement 比 Fragment SharedElement 要复杂一点，要存储前一个 Activity 的状态，然后在当前 Activity 动画的时候带上</p>
+<p>假设从 A(activity) -> B(activity)</p>
+<ol>
+    <li> A.setExitSharedElementCallback 中 onCaptureSharedElementSnapshot 需要存储 A界面 需要自定义元素的信息，在 Demo 中是存储了字体的颜色和大小</li>
+    <li> B.setEnterSharedElementCallback 中 onCreateSnapshotView 将 A界面 传输过来的快照，保存起来 </li>
+    <li> B.setEnterSharedElementCallback 中 onSharedElementStart 和 onSharedElementEnd 根据 isEnter 分别处理进入和离开的情况</li>
+</ol>
+<div style='display: box;'>
+  <!-- 动态图1 -->
+  <img src="./images/Activity_invalid_shared_elment.gif" style="width: 300px;"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <!-- 动态图2 -->
+  <img src="./images/Activity_valid_shared_elment.gif" style="width: 300px;"/>
 </div>
+<br/>
+
+<pre>
+<p/>
+注意：自定义SharedElement的时候，是不能修改其他属性的（比如left,right,top,bottom等）否则，动画不是你预期的;<br/>
+我开始的理解在 onSharedElementStart 的时候，从snapshot 信息弄到 sharedElement 上; 在 onSharedElementEnd 恢复原界面的信息；<br/>
+但对于 textColor 是可以的，因为它不会关联[left, right，top，bottom等]相关属性，动画是正常的；<br/>
+但 textSize 是会 影响 right 和 bottom 的，导致最后的动画会有跳动效果<br/>
+最后我在 view 上存储了A界面和B界面信息，根据不同状态来组成动画；暂时没想到有其他更好的方法<br/>
+Tips: Activity SharedElement 是自带 GhostView 的在最上层的，所以不用考虑 Fragment 被覆盖问题
+</pre>
+
+```java
+// 核心流程代码 EnterTransitionCoordinator.startSharedElementTransition 中
+class EnterTransitionCoordinator {
+
+    private void startSharedElementTransition(Bundle sharedElementState) {
+        // ...
+
+        // 根据前一个数据生成快照
+        ArrayList<View> sharedElementSnapshots = createSnapshots(sharedElementState,
+                mSharedElementNames);
+        showViews(mSharedElements, true);
+        // 下一个 onPreDraw 实际调用 onSharedElementEnd
+        // 在 onSharedElementStart 中改动的属性，会在 onSharedElementEnd调用前测量，所以不能改变原有属性
+        scheduleSetSharedElementEnd(sharedElementSnapshots);
+        // 取出 SharedElements 相关属性存储，并调用 onSharedElementEnd
+        ArrayList<SharedElementOriginalState> originalImageViewState =
+                setSharedElementState(sharedElementState, sharedElementSnapshots);
+
+        // ...
+
+        // 实际调用 TransitionManager.beginDelayedTransition        
+        Transition transition = beginTransition(decorView, startEnterTransition,
+                startSharedElementTransition);
+
+        // 相关属性恢复到 sharedElement 中
+        setOriginalSharedElementState(mSharedElements, originalImageViewState);
+    }
+
+}
+```
 
 <h3>关于自定义 Fragment SharedElement 遇到的问题</h3>
 <p>因为 Fragment 本质就是往 FrameLayout 中的布局 addView，所以 Fragment SharedElement 过渡会很简单,内部其实直接调用 TransitionManager.beginDelayedTransition [具体代码在 FragmentTransition.startTransitions 方法中]</p>
