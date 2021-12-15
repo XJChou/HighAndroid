@@ -120,7 +120,7 @@ class EnterTransitionCoordinator {
 <ul>
     <li>ChangeTransform.parentMatrix 实际的值是 view.parent 相对于整个屏幕的 left 和 top; 让 view.parent 的 left 和 top 在2个场景下发生变化即可触发 ChangeTransform 的 GhostView 跨view位移[也就是官方对 RecyclerView 中的 Item 增加 paddingStart，同时回答了第五点start、left和top可以, right 和 bottom不行]</li>
     <li>对 ChangeTransform 进行修改；通过看源码可知，实际干活的是 ChangeTransform.createGhostView; 让 GhostView 干活即可; [<a href='../common/src/main/java/androidx/transition/ChangePosition.kt'>ChangePosition</a>]</li>
-    <li>让 FrameLayout 加入到 GhostView 中，自身管理动画过程中的 Transition, 如 Activity Transition 一致</li>
+    <li>让 FrameLayout 加入到 GhostView 中，自身管理动画过程中的 Transition, 如 Activity Transition 一致
 </ul>
 
 
