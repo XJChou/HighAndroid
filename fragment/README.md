@@ -128,13 +128,13 @@ class EnterTransitionCoordinator {
 
 当返回的时候想改变 sharedElement 元素的时候，类似 [官方demo](https://github.com/android/animation-samples/tree/main/GridToPager) 效果的话
 
+<img src="./images/recyclerview_to_viewpager_small.gif" style="width: 300px;"/>
+
 我阅读了官方demo代码，发现是在 setExitSharedElementCallback 和 setEnterSharedElementCallback 中的 onMapSharedElements 分别进行了 view 的替换
 
 如果在 onMapSharedElements 没有更改 name 和 view 的话，正常情况下 name.equals(ViewCompat.getTransitionName(view)) 条件是为 true，则不会触发此分支
 
 反之 exitingCall 会使 sharedElementNameMapping 的 key 发生改变，enteringCallback 会使 sharedElementNameMapping 的 value 发生改变，具体工作代码如下
-
-<img src="./images/recyclerview_to_viewpager_small.gif" style="width: 300px;"/>
 
 ```java
 class DefaultSpecialEffectsController {
