@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ASMIdeaPluginConfiguration">
+    <asm skipDebug="false" skipFrames="false" skipCode="false" expandFrames="false" />
+    <groovy codeStyle="LEGACY" />
+  </component>
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
@@ -8,10 +12,43 @@
         <entry key="..\:/code/Android/HighAndroid/animation/src/main/res/layout/fragment_fourth.xml" value="0.1259259259259259" />
         <entry key="..\:/code/Android/HighAndroid/animation/src/main/res/layout/fragment_second.xml" value="0.276268115942029" />
         <entry key="..\:/code/Android/HighAndroid/animation/src/main/res/layout/fragment_third.xml" value="0.276268115942029" />
+        <entry key="..\:/code/Android/HighAndroid/app/src/main/res/layout/activity_main.xml" value="0.20108695652173914" />
         <entry key="..\:/code/Android/HighAndroid/clipcamera/src/main/res/layout/activity_main.xml" value="0.28940217391304346" />
+        <entry key="..\:/code/Android/HighAndroid/constraint/src/main/res/drawable/ic_invisible.xml" value="0.2630208333333333" />
+        <entry key="..\:/code/Android/HighAndroid/constraint/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/code/Android/HighAndroid/constraint/src/main/res/layout/layout_demo1.xml" value="0.5" />
+        <entry key="..\:/code/Android/HighAndroid/constraint/src/main/res/layout/layout_loadding.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/constraint/src/main/res/layout/layout_loading.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/constraint/src/main/res/layout/layout_text_invalidate.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/constraint/src/main/res/layout/layout_text_validate.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/customlayout/src/main/res/layout/activity_layout_view.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/activity_contact.xml" value="0.23333333333333334" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/activity_contact_impl.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/activity_detail.xml" value="0.24583333333333332" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/activity_detail_impl.xml" value="0.3390625" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/activity_grid.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/activity_grid_page.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/activity_main.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/fragment_contact.xml" value="0.23333333333333334" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/fragment_detail.xml" value="0.17198581560283688" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/fragment_grid.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/fragment_image.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/fragment_list.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/fragment_page.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/fragment_previeew.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/fragment_preview.xml" value="0.21331521739130435" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/image_card.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/fragment/src/main/res/layout/item_contacts.xml" value="0.3536458333333333" />
         <entry key="..\:/code/Android/HighAndroid/materialedittext/src/main/res/layout/activity_main.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/motionlayout/src/main/res/drawable-v24/ic_earth.xml" value="0.3697916666666667" />
+        <entry key="..\:/code/Android/HighAndroid/motionlayout/src/main/res/layout/activity_main.xml" value="0.4778761061946903" />
         <entry key="..\:/code/Android/HighAndroid/path/src/main/res/layout/activity_main.xml" value="0.2817028985507246" />
         <entry key="..\:/code/Android/HighAndroid/text/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
+        <entry key="..\:/code/Android/HighAndroid/touch/src/main/res/layout/activity_drag.xml" value="0.33" />
+        <entry key="..\:/code/Android/HighAndroid/touch/src/main/res/layout/activity_multi_touch.xml" value="0.3489583333333333" />
+        <entry key="..\:/code/Android/HighAndroid/touch/src/main/res/layout/activity_zview_pager.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/touch/src/main/res/layout/fragment_drag_transport.xml" value="0.3536458333333333" />
+        <entry key="..\:/code/Android/HighAndroid/touch/src/main/res/layout/fragment_draw_block.xml" value="0.3536458333333333" />
         <entry key="..\:/code/android/HighAndroid/customlayout/src/main/res/layout/activity_layout_group.xml" value="0.25612921834438995" />
         <entry key="..\:/code/android/HighAndroid/customlayout/src/main/res/layout/activity_layout_view.xml" value="0.353713768115942" />
         <entry key="..\:/code/android/HighAndroid/customlayout/src/main/res/layout/activity_main.xml" value="0.1" />
@@ -20,7 +57,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8 (2)" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8 (2)" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

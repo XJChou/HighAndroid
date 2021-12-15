@@ -4,16 +4,18 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
 import android.transition.*
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.SharedElementCallback
 import androidx.core.view.ViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.zxj.fragment.R
 import com.zxj.common.bean.SharedElementItem
 import com.zxj.common.transition.ChangeText
+import com.zxj.fragment.R
 import com.zxj.fragment.contact.Contacts
 import com.zxj.fragment.databinding.ActivityDetailImplBinding
 import com.zxj.fragment.transition.ChangeOnlineImageTransition
@@ -60,6 +62,22 @@ class DetailImplActivity : AppCompatActivity() {
                     view.setTag(R.id.shared_element_snapshot_end, end)
                 }
             }
+//            sharedElementSnapshots.forEachIndexed { index, item ->
+//                item.setTag(
+//                    R.id.shared_element_snapshot_end,
+//                    SharedElementItem.create(sharedElements[index])
+//                )
+//                val snapshot = item.getTag(R.id.shared_element_snapshot_start)
+//                if (snapshot != null && snapshot is SharedElementItem) {
+//                    val startColor = snapshot.getInt(SharedElementItem.TEXT_VIEW_COLOR)
+//                    val textSize = snapshot.getFloat(SharedElementItem.TEXT_VIEW_SIZE)
+//                    (sharedElements[index] as? TextView)?.setTextColor(startColor)
+//                    (sharedElements[index] as? TextView)?.setTextSize(
+//                        TypedValue.COMPLEX_UNIT_PX,
+//                        textSize
+//                    )
+//                }
+//            }
         }
 
         // 生成结束属性【captureEndValues】
@@ -69,6 +87,19 @@ class DetailImplActivity : AppCompatActivity() {
             sharedElementSnapshots: MutableList<View>
         ) {
             super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots)
+
+//            sharedElementSnapshots.forEachIndexed { index, item ->
+//                val snapshot = item.getTag(R.id.shared_element_snapshot_end)
+//                if (snapshot != null && snapshot is SharedElementItem) {
+//                    val startColor = snapshot.getInt(SharedElementItem.TEXT_VIEW_COLOR)
+//                    val textSize = snapshot.getFloat(SharedElementItem.TEXT_VIEW_SIZE)
+//                    (sharedElements[index] as? TextView)?.setTextColor(startColor)
+//                    (sharedElements[index] as? TextView)?.setTextSize(
+//                        TypedValue.COMPLEX_UNIT_PX,
+//                        textSize
+//                    )
+//                }
+//            }
             sharedElements.forEachIndexed { i, view ->
                 if (!isEnter) {
                     // 返回的时候交换回去

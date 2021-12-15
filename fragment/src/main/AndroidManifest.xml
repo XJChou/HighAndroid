@@ -10,14 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HighAndroid">
         <activity
-            android:name=".contact.activity.DetailImplActivity"
-            android:exported="false" />
-        <activity
-            android:name=".contact.activity.ContactImplActivity"
-            android:exported="true" >
-        </activity>
-        <activity
-            android:name=".contact.fragment.ContactActivity"
+            android:name=".gridtodetail.fragment.GridPageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,9 +18,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".gridtodetail.activity.DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".gridtodetail.activity.GridActivity"
+            android:exported="false" />
+        <activity
+            android:name=".contact.activity.DetailImplActivity"
+            android:exported="false" />
+        <activity
+            android:name=".contact.activity.ContactImplActivity"
+            android:exported="true" />
+        <activity
+            android:name=".contact.fragment.ContactActivity"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

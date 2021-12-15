@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
+import com.zxj.common.commit
 import com.zxj.fragment.MainActivity
+import com.zxj.fragment.R
 import com.zxj.fragment.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {
@@ -30,46 +32,17 @@ class ListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         val onClickListener = View.OnClickListener {
-            it.elevation = 100f
-            (requireActivity() as? MainActivity)?.transitionPreview(it)
+            parentFragmentManager.commit {
+                addSharedElement(it, "item_view")
+                replace(R.id.fl_content, PreviewFragment())
+                addToBackStack(null)
+            }
         }
-
         binding.ivIcon1.setOnClickListener(onClickListener)
         binding.ivIcon2.setOnClickListener(onClickListener)
         binding.ivIcon3.setOnClickListener(onClickListener)
         binding.ivIcon4.setOnClickListener(onClickListener)
         binding.ivIcon5.setOnClickListener(onClickListener)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.e("LifeScope", "ListFragment onCreate")
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.e("LifeScope", "ListFragment onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.e("LifeScope", "ListFragment onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.e("LifeScope", "ListFragment onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.e("LifeScope", "ListFragment onStop")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e("LifeScope", "ListFragment onDestroy")
     }
 }

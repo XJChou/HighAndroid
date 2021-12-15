@@ -120,7 +120,68 @@ class EnterTransitionCoordinator {
 <ul>
     <li>ChangeTransform.parentMatrix 实际的值是 view.parent 相对于整个屏幕的 left 和 top; 让 view.parent 的 left 和 top 在2个场景下发生变化即可触发 ChangeTransform 的 GhostView 跨view位移[也就是官方对 RecyclerView 中的 Item 增加 paddingStart，同时回答了第五点start、left和top可以, right 和 bottom不行]</li>
     <li>对 ChangeTransform 进行修改；通过看源码可知，实际干活的是 ChangeTransform.createGhostView; 让 GhostView 干活即可; [<a href='../common/src/main/java/androidx/transition/ChangePosition.kt'>ChangePosition</a>]</li>
+    <li>让 FrameLayout 加入到 GhostView 中，自身管理动画过程中的 Transition, 如 Activity Transition 一致</li>
 </ul>
 
 
+### 关于切换回来 sharedElement 改变
 
+当返回的时候想改变 sharedElement 元素的时候，类似 [官方demo](https://github.com/android/animation-samples/tree/main/GridToPager) 效果的话
+
+我阅读了官方demo代码，发现是在 setExitSharedElementCallback 和 setEnterSharedElementCallback 中的 onMapSharedElements 分别进行了 view 的替换
+
+如果在 onMapSharedElements 没有更改 name 和 view 的话，正常情况下 name.equals(ViewCompat.getTransitionName(view)) 条件是为 true，则不会触发此分支
+
+反之 exitingCall 会使 sharedElementNameMapping 的 key 发生改变，enteringCallback 会使 sharedElementNameMapping 的 value 发生改变，具体工作代码如下
+
+<img src="./images/recyclerview_to_viewpager_small.gif" style="width: 300px;"/>
+
+```java
+class DefaultSpecialEffectsController {
+    @NonNull
+    private Map<Operation, Boolean> startTransitions(@NonNull List<TransitionInfo> transitionInfos,
+                                                     final boolean isPop, @Nullable final Operation firstOut,
+                                                     @Nullable final Operation lastIn) {
+        // ...
+        if (exitingCallback != null) {
+            // Give the SharedElementCallback a chance to override the default mapping
+            exitingCallback.onMapSharedElements(exitingNames, firstOutViews);
+            for (int i = exitingNames.size() - 1; i >= 0; i--) {
+                String name = exitingNames.get(i);
+                View view = firstOutViews.get(name);
+                if (view == null) {
+                    sharedElementNameMapping.remove(name);
+                } else if (!name.equals(ViewCompat.getTransitionName(view))) {
+                    String targetValue = sharedElementNameMapping.remove(name);
+                    sharedElementNameMapping.put(ViewCompat.getTransitionName(view),
+                            targetValue);
+                }
+            }
+        }
+        // ...
+        if (enteringCallback != null) {
+            // Give the SharedElementCallback a chance to override the default mapping
+            enteringCallback.onMapSharedElements(enteringNames, lastInViews);
+            for (int i = enteringNames.size() - 1; i >= 0; i--) {
+                String name = enteringNames.get(i);
+                View view = lastInViews.get(name);
+                if (view == null) {
+                    String key = FragmentTransition.findKeyForValue(
+                            sharedElementNameMapping, name);
+                    if (key != null) {
+                        sharedElementNameMapping.remove(key);
+                    }
+                } else if (!name.equals(ViewCompat.getTransitionName(view))) {
+                    String key = FragmentTransition.findKeyForValue(
+                            sharedElementNameMapping, name);
+                    if (key != null) {
+                        sharedElementNameMapping.put(key,
+                                ViewCompat.getTransitionName(view));
+                    }
+                }
+            }
+        }
+        // ...
+    }
+}
+```

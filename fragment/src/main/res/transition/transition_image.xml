@@ -4,4 +4,5 @@
     <!--    <changeBounds/>-->
     <!--    <changeClipBounds />-->
     <autoTransition />
+    <changeTransform />
 </transitionSet>
