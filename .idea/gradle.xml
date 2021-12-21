@@ -7,7 +7,7 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="11" />
+        <option name="gradleJvm" value="Embedded JDK" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -17,8 +17,11 @@
             <option value="$PROJECT_DIR$/clipcamera" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/compose" />
+            <option value="$PROJECT_DIR$/constraint" />
             <option value="$PROJECT_DIR$/customlayout" />
+            <option value="$PROJECT_DIR$/fragment" />
             <option value="$PROJECT_DIR$/materialedittext" />
+            <option value="$PROJECT_DIR$/motionlayout" />
             <option value="$PROJECT_DIR$/path" />
             <option value="$PROJECT_DIR$/text" />
             <option value="$PROJECT_DIR$/touch" />

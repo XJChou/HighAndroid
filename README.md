@@ -22,3 +22,11 @@ Android进阶Demo【HenCoder 第八期】
     <img width="300px" src='https://github.com/XJChou/HighAndroid/blob/master/constraint/images/Constraint_validate.gif'/>
     <img width="300px" src='https://github.com/XJChou/HighAndroid/blob/master/constraint/images/Constraint_invalidate.gif'/>
 </div>
+
+<h3>SharedElement 过渡相关</h3>
+<h4><a href='./fragment/README.md'>关于 Activity/Fragment.SharedElement 过渡相关问题</a></h4>
+<div>
+    <img width="300px" src='./fragment/images/Fragment_invalid_shared_element_resize.gif'/>
+    <img width="300px" src='./fragment/images/Fragment_valid_shared_element resize.gif'/>
+</div>
+
