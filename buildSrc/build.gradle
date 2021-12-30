@@ -22,14 +22,15 @@ repositories {
     mavenCentral()
 }
 
+def asmVersion = "8.0.1"
+
 dependencies {
-//    compileOnly gradleApi()
-//    compileOnly localGroovy()
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
-//    implementation "com.android.tools.build:gradle:4.0.0-beta01"
     implementation "com.android.tools.build:gradle:7.0.1"
+//    implementation 'org.apache.directory.studio:org.apache.commons.io:2.4'
 
-//    compileOnly "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21"
+//    compileOnly "com.android.tools.build:gradle:7.0.1"
+    implementation "org.ow2.asm:asm:$asmVersion"
+    implementation "org.ow2.asm:asm-util:$asmVersion"
+    implementation "org.ow2.asm:asm-commons:$asmVersion"
 }
 
