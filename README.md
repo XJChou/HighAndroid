@@ -30,5 +30,5 @@ Android进阶Demo【HenCoder 第八期】
     <img width="300px" src='./fragment/images/Fragment_valid_shared_element resize.gif'/>
 </div>
 
-### [手动打包APK流程](https://github.com/XJChou/HighAndroid/tree/master/buildapk)
+### [手动打包简单APK流程](https://github.com/XJChou/HighAndroid/tree/master/buildapk)
 
