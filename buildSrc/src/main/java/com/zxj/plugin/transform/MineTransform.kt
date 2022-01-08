@@ -7,6 +7,10 @@ import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.internal.pipeline.TransformManager
 import org.gradle.util.GFileUtils
 import org.objectweb.asm.*
+import org.objectweb.asm.Type.LONG_TYPE
+import org.objectweb.asm.Type.getType
+import org.objectweb.asm.commons.AdviceAdapter
+import org.objectweb.asm.commons.Method
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -53,7 +57,10 @@ class MineTransform : Transform() {
         }
     }
 
-    private fun transformOnly(transformInvocation: TransformInvocation) {
+    /**
+     * 仅转换transform
+     */
+    private fun onlyTransform(transformInvocation: TransformInvocation) {
         val provider = transformInvocation.outputProvider
         transformInvocation.inputs.forEach {
             it.directoryInputs.forEach {
@@ -83,7 +90,6 @@ class MineTransform : Transform() {
             source.isDirectory -> {
                 // 拷贝目录
                 source.listFiles()?.forEach {
-//                    println("base = ${dest}\nsource = ${it}\nfinal = ${newDest}\n")
                     val newDest = File(dest, it.name)
                     transform(it, newDest)
                 }
@@ -106,16 +112,15 @@ class MineTransform : Transform() {
                 // 从文件读入内存
                 val fileInputStream = FileInputStream(source)
                 val classReader = ClassReader(fileInputStream)
-                val classWriter = ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
-                classReader.accept(MineVisitor(classWriter), ClassReader.EXPAND_FRAMES)
+                val classWriter = ClassWriter(classReader, 0)
+                // 阅读的模式、 - 关联打包的性能
+                classReader.accept(MineVisitor(classWriter), ClassReader.SKIP_FRAMES)
 
                 // 从内存写出到目标文件
                 GFileUtils.touch(dest)           // 创建了一个新文件
                 val fileOutputStream = FileOutputStream(dest)
                 fileOutputStream.write(classWriter.toByteArray())
                 fileOutputStream.close()
-                classWriter::class.java.genericSuperclass
-                println(" ----------------------- asm end ----------------------- ")
             }
             .onFailure {
                 println("asm error: ${it}")
@@ -125,8 +130,9 @@ class MineTransform : Transform() {
 
 }
 
-class MineVisitor(classWriter: ClassWriter) : ClassVisitor(Opcodes.ASM7, classWriter) {
+class MineVisitor(classVisitor: ClassVisitor) : ClassVisitor(Opcodes.ASM7, classVisitor) {
 
+    // 类的名字
     private var className = ""
 
     override fun visit(
@@ -156,103 +162,75 @@ class MineVisitor(classWriter: ClassWriter) : ClassVisitor(Opcodes.ASM7, classWr
         if (access.and(Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC) {
             return super.visitMethod(access, name, descriptor, signature, exceptions)
         }
-        val visitor = super.visitMethod(access, name, descriptor, signature, exceptions)
-        val count = (descriptor?.count { it == ';' } ?: 0) + 1
-        println("method = ${name}, param = ${count}, descriptor = ${descriptor}")
-        return MethodTimeVisitor(className, count, api, visitor)
+        val methodVisitor = super.visitMethod(access, name, descriptor, signature, exceptions)
+        return MethodTimeVisitor(api, methodVisitor, access, name, descriptor)
     }
 }
 
 class MethodTimeVisitor(
-    val className: String,
-    val localCount: Int,
     api: Int,
-    originMethod: MethodVisitor
-) : MethodVisitor(api, originMethod) {
+    originMethod: MethodVisitor,
+    access: Int,
+    name: String?,
+    descriptor: String?
+) : AdviceAdapter(api, originMethod, access, name, descriptor) {
 
-    // 方法前执行
-    override fun visitCode() {
-        super.visitCode()
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "nanoTime", "()J", false);
-        // 存入本地栈中 [0为 this]
-        mv.visitVarInsn(Opcodes.LSTORE, localCount);
+    var timeIndex = 0
+
+    override fun onMethodEnter() {
+        super.onMethodEnter()
+        // 执行 System.nanoTime()
+        invokeStatic(getType("Ljava/lang/System;"), Method("nanoTime", "()J"))
+        // 存入 本地本量表中
+        timeIndex = newLocal(Type.LONG_TYPE)
+        println("onMethodEnter timeIndex = ${timeIndex}")
+        storeLocal(timeIndex)
     }
 
-    /**
-     * 发现内部操作指令
-     */
-    override fun visitInsn(opcode: Int) {
-        // 如果是 RETURN 指令，代表防止结束
-        if (opcode == Opcodes.RETURN) {
-            mv.visitLdcInsn("zxj")
-            mv.visitTypeInsn(Opcodes.NEW, "java/lang/StringBuilder")
-            mv.visitInsn(Opcodes.DUP)
-            mv.visitMethodInsn(
-                Opcodes.INVOKESPECIAL,
-                "java/lang/StringBuilder",
-                "<init>",
-                "()V",
-                false
-            )
-            mv.visitLdcInsn("method use time = ")
-            mv.visitMethodInsn(
-                Opcodes.INVOKEVIRTUAL,
-                "java/lang/StringBuilder",
-                "append",
-                "(Ljava/lang/String;)Ljava/lang/StringBuilder;",
-                false
-            )
-            mv.visitMethodInsn(
-                Opcodes.INVOKESTATIC,
-                "java/lang/System",
-                "nanoTime",
-                "()J",
-                false
-            )
-            mv.visitVarInsn(Opcodes.LLOAD, localCount)
-            mv.visitInsn(Opcodes.LSUB)
-            mv.visitMethodInsn(
-                Opcodes.INVOKEVIRTUAL,
-                "java/lang/StringBuilder",
-                "append",
-                "(J)Ljava/lang/StringBuilder;",
-                false
-            )
-            mv.visitLdcInsn("ns")
-            mv.visitMethodInsn(
-                Opcodes.INVOKEVIRTUAL,
-                "java/lang/StringBuilder",
-                "append",
-                "(Ljava/lang/String;)Ljava/lang/StringBuilder;",
-                false
-            )
-            mv.visitMethodInsn(
-                Opcodes.INVOKEVIRTUAL,
-                "java/lang/StringBuilder",
-                "toString",
-                "()Ljava/lang/String;",
-                false
-            )
-            mv.visitMethodInsn(
-                Opcodes.INVOKESTATIC,
-                "android/util/Log",
-                "e",
-                "(Ljava/lang/String;Ljava/lang/String;)I",
-                false
-            )
-            mv.visitInsn(Opcodes.POP)
+    override fun onMethodExit(code: Int) {
+        super.onMethodExit(code)
+        visitLdcInsn("zxj")
 
-//            mv.visitLdcInsn("zxj")
-//            mv.visitLdcInsn("method[${name}] use time = ${delta}ns")
-//            mv.visitMethodInsn(
-//                Opcodes.INVOKESTATIC,
-//                "android/util/Log",
-//                "e",
-//                "(Ljava/lang/String;Ljava/lang/String;)I",
-//                false
-//            )
-//            mv.visitInsn(Opcodes.POP);
-        }
-        super.visitInsn(opcode)
+        buildMessage()
+        invokeStatic(
+            Type.getType("Landroid/util/Log;"),
+            Method("e", "(Ljava/lang/String;Ljava/lang/String;)I")
+        )
+        pop()
     }
+
+    private fun buildMessage() {
+        // 完成后，此时操作栈["zxj", StringBuilder]
+        newInstance(getType(StringBuilder::class.java))
+        dup()
+        invokeConstructor(getType(StringBuilder::class.java), Method("<init>", "()V"))
+        visitLdcInsn("method use time = ")
+        invokeVirtual(
+            getType(StringBuilder::class.java),
+            Method("append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;")
+        )
+
+
+        invokeStatic(Type.getType(System::class.java), Method("nanoTime", "()J"))
+        loadLocal(timeIndex)
+        math(SUB, LONG_TYPE)
+        invokeVirtual(
+            getType(StringBuilder::class.java),
+            Method("append", "(J)Ljava/lang/StringBuilder;")
+        )
+
+
+        visitLdcInsn("ns")
+        invokeVirtual(
+            getType(StringBuilder::class.java),
+            Method("append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;")
+        )
+
+
+        invokeVirtual(
+            getType(StringBuilder::class.java),
+            Method("toString", "()Ljava/lang/String;")
+        )
+    }
+
 }
