@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/buildapk" />
             <option value="$PROJECT_DIR$/clipcamera" />
             <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/component" />
             <option value="$PROJECT_DIR$/compose" />
             <option value="$PROJECT_DIR$/constraint" />
             <option value="$PROJECT_DIR$/customlayout" />

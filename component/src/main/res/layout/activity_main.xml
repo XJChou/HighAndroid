@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <!--  插件化  -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:padding="16dp"
+        android:text="插件化" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_plugin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="插件化" />
+
+
+    <!--  全量替换热更新  -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:padding="16dp"
+        android:text="全量热更新" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_hotfix_full_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="全量替换包" />
+
+    <!--  局部替换热更新  -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:padding="16dp"
+        android:text="局部热更新" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_hotfix_path_load"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="加载局部热更新" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_hotfix_path_unload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="卸载局部热更新" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_hotfix_toast"
+        android:layout_marginTop="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Toast验证" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
