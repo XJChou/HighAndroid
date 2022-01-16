@@ -31,7 +31,7 @@ Android进阶Demo【HenCoder 第八期】
     <img width="300px" src='./fragment/images/Fragment_valid_shared_element resize.gif'/>
 </div>
 
-### 其他
+### 技术点应用
 * [手动打包简单APK流程](https://github.com/XJChou/HighAndroid/tree/master/buildapk)
 * [简单插件化和热更新](https://github.com/XJChou/HighAndroid/tree/master/component)
 * [简易Android Processor使用](butterknife)
