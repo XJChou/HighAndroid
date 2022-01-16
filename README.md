@@ -1,7 +1,8 @@
 # HighAndroid
 Android进阶Demo【HenCoder 第八期】
 
-<h3><a href='https://github.com/XJChou/HighAndroid/blob/master/touch/src/main/java/com/zxj/touch/drag/DragBlockView.kt'>DragBlockView【简易色块移动】</a></h3>
+
+### [DragBlockView【简易色块移动】](touch/src/main/java/com/zxj/touch/drag/DragBlockView.kt)
 </p>
 相关技术：</p>
     1、ViewDragHelper：用于拖拽指定的子view，并可以监听拖拽过程做出对应改变，一般常用于应用内的拖拽</p>
@@ -15,7 +16,7 @@ Android进阶Demo【HenCoder 第八期】
 相关技术：</p>
     View.OnDragListener：View自带的拖拽，主要用于跨应用传输数据【扔老师：如果是分屏的时候，可以把相册的内容，直接拖到微信聊天框，可以直接发照片】 </p>
 
-<h3>ConstraintLayout</h3>
+### ConstraintLayout
 </p>
 <h4><a href='https://github.com/XJChou/HighAndroid/blob/master/constraint/README.md'>关于ConstraintLayout中TextView省略号问题</a></h4>
 <div>
@@ -23,8 +24,8 @@ Android进阶Demo【HenCoder 第八期】
     <img width="300px" src='https://github.com/XJChou/HighAndroid/blob/master/constraint/images/Constraint_invalidate.gif'/>
 </div>
 
-<h3>SharedElement 过渡相关</h3>
-<h4><a href='./fragment/README.md'>关于 Activity/Fragment.SharedElement 过渡相关问题</a></h4>
+### SharedElement 过渡相关
+#### [关于 Activity/Fragment.SharedElement 过渡相关问题](fragment)
 <div>
     <img width="300px" src='./fragment/images/Fragment_invalid_shared_element_resize.gif'/>
     <img width="300px" src='./fragment/images/Fragment_valid_shared_element resize.gif'/>
