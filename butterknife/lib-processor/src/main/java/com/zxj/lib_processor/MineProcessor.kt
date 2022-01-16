@@ -28,46 +28,49 @@ class MineProcessor : AbstractProcessor() {
         annotations: MutableSet<out TypeElement>,
         roundEnv: RoundEnvironment
     ): Boolean {
-        // EnclosingElemtn -> rootElements -> enclosedElements
+        // 每个Activity的遍历
         roundEnv.rootElements.forEach {
-            // 获取当前类基本信息
-            println("rootElements = ${it}")
-            val packageString = it.enclosingElement.toString()
-            val classString = it.simpleName.toString()
+            // 当前 RootElement 的包名和类名
+            val packageName = it.enclosingElement.toString()    // 用于包裹 RootElement，这里是包名
+            val className = it.simpleName.toString()            // Element 类名字
 
-            val className = ClassName.get(packageString, "${classString}Binding")
-            val methodBuilder = MethodSpec
-                .constructorBuilder()
+            // 生成 一个带 RootElement(Activity) 参数的构造方法
+            val constructorBuilder = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(ClassName.get(packageString, classString), "activity")
+                .addParameter(ClassName.get(packageName, className), "activity")
 
-            var hasBinding = false
-
-            it.enclosedElements.forEach { enclosedElement ->
-                if (enclosedElement.kind == ElementKind.FIELD) {
-                    val bindView = enclosedElement.getAnnotation(BindView::class.java)
+            var isNeedBuild = false
+            // 内容为 @BindView 注解 生成 activity.* = activity.findViewById(*)
+            it.enclosedElements
+                .filter { it.kind == ElementKind.FIELD }
+                .forEach {
+                    val bindView = it.getAnnotation(BindView::class.java)
                     if (bindView != null) {
-                        hasBinding = true
-                        // $N -> Name
-                        // $L -> Literal(具体值)
-                        methodBuilder.addStatement(
+                        isNeedBuild = true
+                        val viewId = bindView.value
+                        constructorBuilder.addStatement(
                             "activity.\$N = activity.findViewById(\$L)",
-                            enclosedElement.simpleName, bindView.value
+                            it.simpleName, viewId
                         )
                     }
                 }
-            }
 
-            val buildClass = TypeSpec.classBuilder(className)
+            // package + public [className]Binding + 构造方法
+            val bindingType = TypeSpec
+                .classBuilder("${className}Binding")
                 .addModifiers(Modifier.PUBLIC)
-                .addMethod(methodBuilder.build())
+                .addMethod(constructorBuilder.build())
                 .build()
 
-            if (hasBinding) {
-                JavaFile.builder(packageString, buildClass)
-                    .build().writeTo(javaFile)
+            // 需要构建文件
+            if (isNeedBuild) {
+                JavaFile
+                    .builder(packageName, bindingType)
+                    .build()
+                    .writeTo(javaFile)
             }
         }
+
         return false
     }
 
