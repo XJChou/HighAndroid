@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11">
+    <bytecodeTargetLevel target="1.7">
+      <module name="HighAndroid.animation" target="11" />
+      <module name="HighAndroid.app" target="11" />
+      <module name="HighAndroid.buildapk" target="11" />
       <module name="HighAndroid.buildSrc" target="1.8" />
       <module name="HighAndroid.buildSrc.main" target="1.8" />
       <module name="HighAndroid.buildSrc.test" target="1.8" />
+      <module name="HighAndroid.butterknife" target="11" />
+      <module name="HighAndroid.butterknife.lib" target="11" />
+      <module name="HighAndroid.butterknife.lib-processor" target="1.8" />
+      <module name="HighAndroid.butterknife.lib-processor.main" target="1.8" />
+      <module name="HighAndroid.butterknife.lib-processor.test" target="1.8" />
+      <module name="HighAndroid.butterknife.lib.main" target="1.8" />
+      <module name="HighAndroid.butterknife.lib.test" target="1.8" />
+      <module name="HighAndroid.clipcamera" target="11" />
+      <module name="HighAndroid.common" target="11" />
+      <module name="HighAndroid.component" target="11" />
+      <module name="HighAndroid.compose" target="11" />
+      <module name="HighAndroid.constraint" target="11" />
+      <module name="HighAndroid.customlayout" target="11" />
+      <module name="HighAndroid.fragment" target="11" />
+      <module name="HighAndroid.materialedittext" target="11" />
+      <module name="HighAndroid.motionlayout" target="11" />
+      <module name="HighAndroid.path" target="11" />
+      <module name="HighAndroid.text" target="11" />
+      <module name="HighAndroid.touch" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -15,6 +15,10 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/buildapk" />
+            <option value="$PROJECT_DIR$/butterknife" />
+            <option value="$PROJECT_DIR$/butterknife/lib" />
+            <option value="$PROJECT_DIR$/butterknife/lib-annotation" />
+            <option value="$PROJECT_DIR$/butterknife/lib-processor" />
             <option value="$PROJECT_DIR$/clipcamera" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/component" />
