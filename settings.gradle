@@ -21,3 +21,5 @@ include ':motionlayout'
 include ':fragment'
 include ':buildapk'
 include ':component'
+// 简单 ButterKnife
+include ':butterknife', ':butterknife:lib', ':butterknife:lib-processor', ':butterknife:lib-annotation'
