@@ -9,6 +9,13 @@
 // TODO 图
 
 
+### RecyclerView缓存区 - Recycler
+mChangedScrap: 暂存已绘制的但将要改变的的ViewHolder，主要用于 pre-layout 中布局
+mAttachedScrap: 暂存可以直接复用的ViewHolder，可以用于 post-layout 过程
+mCacheView: 
+RecyclerViewPool
+
+
 ### RecyclerView 与 ListView 对比
 1. 缓存内容从View -> ViewHolder，增加View的重用性，使复用成本降低
 2. 将 getView 拆分成 onCreateViewHolder 和 onBindViewHolder, 可以操控更精细化

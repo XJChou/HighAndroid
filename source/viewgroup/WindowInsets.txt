@@ -1,0 +1,21 @@
+ViewGroup.dispatchApplyWindowInsets
+<= 28 [android 9.0], 派发流程，只要有一个消费掉，则不会继续往下分发
+(28,29] 【android 10.0】派发流程发生修改【老逻辑 和 新逻辑】，新逻辑是分发下给所有的子view
+[30，+)【android 11.0】 派发流程发生改变【原先老逻辑不变、但新逻辑父类处理就不会往下分发】
+没有任何view消费WindowInsets的时候，任何版本都是等价的
+dispatchApplyWindowInsets or call setOnApplyWindowInsetsListener
+
+View.dispatchApplyWindowInsets 
+[1] 外挂的setOnApplyWindowInsetsListener
+[2] 内部自身的onApplyWindowsInsets
+
+自定义【状态栏、导航栏、软键盘】 - 需要关掉DecorView的fitsSystemWindows
+WindowCompat.setDecorFitsSystemWindows(activity.window, false)
+然后设置decorview的setOnApplyWindowInsetsListener => 抢夺decorView自身的分发
+
+View.requestApplyInsets[ 由于设置的监听器的时候，可能错过了调用实际，所以我们总是在设置之后，就调用一次重新让他再次分发  ]
+
+
+view的属性
+clipChildren
+clipToPadding
