@@ -5,11 +5,11 @@
 * LayoutManager：布局管理器
 * Recycler: 复用ViewHolder
 * Adapter: 数据转ViewHolder
-* ChildHelper: 当前 RecyclerView 的 子View管理
+* ChildHelper: 管理当前RecyclerView 的 Child View
 
 
 ### 简单工作原理图
-<img src="./resources/RecyclerView基本工作原理.png" width="50%">
+<img src="./resources/RecyclerView基本工作原理.png" width="80%">
 
 
 ### pre-layout 和 post-layout
@@ -17,24 +17,22 @@ RecyclerView 使用 pre-layout 和 post-layout 来获取动画前后状态
 
 
 ### RecyclerView暂存区/缓存区
-Recycler.mChangedScrap: 暂存已绘制的但将要改变的的ViewHolder，主要用于 pre-layout 中布局
-Recycler.mAttachedScrap: 暂存已绘制但非局部刷新标记的ViewHolder，在下次 onLayout 的时候，可以快速复用，无须 onCreateViewHolder 和 onBindViewHolder
-生命周期
-add的时候：
-1. LinearLayoutManager.onLayoutChildren - detachAndScrapAttachedViews(recycler), 当 !viewHolder.isInvalid() || viewHolder.isRemoved() || mRecyclerView.mAdapter.hasStableIds()
-2. recycler.scrapView 根据 holder.isUpdated() 决定, 如果 holder.isUpdated() == true，则进入 mChangedScrap，反之进入 mAttachedScrap
-use的时候：RecyclerView.Recycler.tryGetViewHolderForPositionByDeadline
-Tip: 从 mRecyclerView.mAdapter.hasStableIds() == true 可知，都会调用 recycler.scrapView(view);
+* Recycler.mChangedScrap: 暂存已绘制的但将要改变的的ViewHolder，主要用于 pre-layout 中布局
+* Recycler.mAttachedScrap: 暂存已绘制但非局部刷新标记的ViewHolder，在下次 onLayout 的时候，可以快速复用，无须 onCreateViewHolder 和 onBindViewHolder
 
-Recycler.mCacheView: 缓存最近 detach 的 ViewHolder, 可以设置通过 Recycler.setViewCacheSize 设置缓存大小
-生命周期
-add的时候：RecyclerView.LayoutManager.(removeAndRecycleView/removeAndRecycleViewAt)
-use的时候：RecyclerView.Recycler.tryGetViewHolderForPositionByDeadline
+  source：
+  1. LinearLayoutManager.onLayoutChildren - detachAndScrapAttachedViews(recycler), 当 !viewHolder.isInvalid() || viewHolder.isRemoved() || mRecyclerView.mAdapter.hasStableIds()
+  2. recycler.scrapView 根据 holder.isUpdated() 决定, 如果 holder.isUpdated() == true，则进入 mChangedScrap，反之进入 mAttachedScrap
 
-Recycler.RecyclerViewPool：按照 ViewType为索引 缓存指定个数的ViewHolder
-生命周期
-add的时候：
-use的时候：RecyclerView.Recycler.tryGetViewHolderForPositionByDeadline
+* Recycler.mCacheView: 缓存最近 detach 的 ViewHolder, 可以设置通过 Recycler.setViewCacheSize 设置缓存大小
+
+  source：RecyclerView.LayoutManager.(removeAndRecycleView/removeAndRecycleViewAt)
+
+* Recycler.RecyclerViewPool：按照 ViewType为索引 缓存指定个数的ViewHolder
+
+  source：CacheView超出cacheSize的条目 || holder.isUpdated() == true || holder.isRemoved() == true
+
+use：RecyclerView.Recycler.tryGetViewHolderForPositionByDeadline
 
 
 ### 常见问题
@@ -45,6 +43,9 @@ use的时候：RecyclerView.Recycler.tryGetViewHolderForPositionByDeadline
    * 但此时 ViewHolder A 和 ViewHolder B，不是同一个，则 ViewHolder A 进行淡出，ViewHolder B进行淡入，整体表现为闪烁 
 
 2. notifyItemChanged() 使用 payloads 不闪烁原因
+
+3. 设置 mAdapter.setHasStableIds(true) 并重写 Adapter.getItemId，执行 notifyDatasetChanged(), 为什么不全部刷新
+   * 
 
 
 ### RecyclerView 与 ListView 对比
@@ -60,7 +61,7 @@ use的时候：RecyclerView.Recycler.tryGetViewHolderForPositionByDeadline
 9. 可以自由调整 mCacheViews 和 RecyclerView Pool大小，增加在不同场景的性能
 
 
-### 关键源码解析
+### 部分源码解析
 
 #### 缓存区
 ```java
@@ -378,7 +379,6 @@ public final class Recycler {
 
 ```
 
-
 #### notifyDataSetChanged
 调用栈 Adapter.notifyDataSetChanged() -> RecyclerViewDataObserver.onChanged()
 ```java
@@ -425,7 +425,6 @@ class RecyclerView extends ViewGroup implements ScrollingView, NestedScrollingCh
 }
 ```
 
-### 部分流程解析
 1、全部刷新 => notifyDataSetChanged[Adapter] -> onChange[RecyclerViewDataObserver]
     mState.mStructureChanged => true
     processDataSetCompletelyChanged(true)
@@ -475,6 +474,7 @@ RecyclerView
         * dispatchLayoutStep3();
     [2] mFirstLayoutComplete = true;
 
+```java
 // 重点
 dispatchLayoutStep1()
     processAdapterUpdatesAndSetAnimationFlags()
@@ -600,4 +600,4 @@ dispatchLayoutStep3()
     recoverFocusFromState();
     // 重置焦点变量
     resetFocusInfo();
- 
+ ```
