@@ -21,14 +21,14 @@ RecyclerView 使用 pre-layout 和 post-layout 来获取动画前后状态
 * Recycler.mAttachedScrap: 暂存已绘制但非局部刷新标记的ViewHolder，在下次 onLayout 的时候，可以快速复用，无须 onCreateViewHolder 和 onBindViewHolder
 
   source：
-  1. LinearLayoutManager.onLayoutChildren - detachAndScrapAttachedViews(recycler), 当 !viewHolder.isInvalid() || viewHolder.isRemoved() || mRecyclerView.mAdapter.hasStableIds()
+  1. LinearLayoutManager.onLayoutChildren - detachAndScrapAttachedViews(recycler), 当 !viewHolder.isInvalid() 或者 viewHolder.isRemoved() 或者 mRecyclerView.mAdapter.hasStableIds() 进入暂存区判断
   2. recycler.scrapView 根据 holder.isUpdated() 决定, 如果 holder.isUpdated() == true，则进入 mChangedScrap，反之进入 mAttachedScrap
 
-* Recycler.mCacheView: 缓存最近 detach 的 ViewHolder, 可以设置通过 Recycler.setViewCacheSize 设置缓存大小
+* Recycler.mCacheView: 缓存最近 detach 的 ViewHolder, 可以设置通过 Recycler.setViewCacheSize 设置缓存大小，当位置相同的时候并且未发生变更，则可以快速复用
 
   source：RecyclerView.LayoutManager.(removeAndRecycleView/removeAndRecycleViewAt)
 
-* Recycler.RecyclerViewPool：按照 ViewType为索引 缓存指定个数的ViewHolder
+* Recycler.RecyclerViewPool：按照 ViewType为索引 缓存指定个数的ViewHolder，缓存已生成但detach的ViewHolder，使用的时候需要重新绑定数据
 
   source：CacheView超出cacheSize的条目 || holder.isUpdated() == true || holder.isRemoved() == true
 
@@ -43,9 +43,12 @@ use：RecyclerView.Recycler.tryGetViewHolderForPositionByDeadline
    * 但此时 ViewHolder A 和 ViewHolder B，不是同一个，则 ViewHolder A 进行淡出，ViewHolder B进行淡入，整体表现为闪烁 
 
 2. notifyItemChanged() 使用 payloads 不闪烁原因
+   * 从1可知，闪烁的原因是因为前后的ViewHolder不一致，那么如果能让前后ViewHolder一致，则不会闪烁[目的：让改变的ViewHolder进入 mAttachedScrap 区域]
+   * 从 Recycler.scrapView(View view) 进入 mAttachedScrap区域判断可知，其中 canReuseUpdatedViewHolder(holder) 是与 payloads 相关的，整合内部条件 [ mItemAnimator == null || !payloads.isEmpty() || super.canReuseUpdatedViewHolder(viewHolder, payloads) ]可知，如果 payloads 不会空，则局部刷新就会进入 mAttachedScrap，最终得到 ViewHolder 一致
 
-3. 设置 mAdapter.setHasStableIds(true) 并重写 Adapter.getItemId，执行 notifyDatasetChanged(), 为什么不全部刷新
-   * 
+3. notifyDatasetChanged 为什么性能极差
+
+4. 怎样提高 notifyDatasetChanged 性能 
 
 
 ### RecyclerView 与 ListView 对比
@@ -56,7 +59,7 @@ use：RecyclerView.Recycler.tryGetViewHolderForPositionByDeadline
 5. 增加了局部刷新，而无需全部更新
 6. ListView第一级缓存效率很低，只有在无数据变更情况下触发了onLayout才能使用，而RecyclerView的第一级缓存mCacheView是记录最近退出的view【源码地方】
 7. 不同RecyclerView可以使用同一个RecyclerViewPool，减少内存损耗
-8. 缓存策略修改，提高击中缓存区的概率，增加缓存的重用性 (mAttachScrap/mChangeScrap) -> mCacheViews -> RecyclerViewPool ->
+8. 缓存策略修改，提高击中缓存区的概率，增加缓存的重用性 (mAttachedScrap/mChangedScrap) -> mCacheViews -> RecyclerViewPool ->
    Adapter.onCreateViewHolder
 9. 可以自由调整 mCacheViews 和 RecyclerView Pool大小，增加在不同场景的性能
 
@@ -568,7 +571,7 @@ dispatchLayoutStep3()
             // Step 4: Process view info lists and trigger animations
             [2] mViewInfoStore.process(mViewInfoProcessCallback);
 
-    // 回收Scrap[mAttachScrap 和 mChangeScrap], 清理掉动画(???)，Scrap剩余的内容移植到RecyclerViewPool
+    // 回收Scrap[mAttachedScrap 和 mChangeScrap], 清理掉动画(???)，Scrap剩余的内容移植到RecyclerViewPool
     mLayout.removeAndRecycleScrapInt(mRecycler);
     mState.mPreviousLayoutItemCount = mState.mItemCount;
     mDataSetHasChangedAfterLayout = false;
