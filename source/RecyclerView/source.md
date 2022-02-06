@@ -1,19 +1,50 @@
 # RecyclerView 源码解析
 
+
 ### RecyclerView 基本组件
 * LayoutManager：布局管理器
 * Recycler: 复用ViewHolder
 * Adapter: 数据转ViewHolder
-
-### 简单工作原理
-// TODO 图
+* ChildHelper: 当前 RecyclerView 的 子View管理
 
 
-### RecyclerView缓存区 - Recycler
-mChangedScrap: 暂存已绘制的但将要改变的的ViewHolder，主要用于 pre-layout 中布局
-mAttachedScrap: 暂存可以直接复用的ViewHolder，可以用于 post-layout 过程
-mCacheView: 
-RecyclerViewPool
+### 简单工作原理图
+<img src="./resources/RecyclerView基本工作原理.png" width="50%">
+
+
+### pre-layout 和 post-layout
+RecyclerView 使用 pre-layout 和 post-layout 来获取动画前后状态
+
+
+### RecyclerView暂存区/缓存区
+Recycler.mChangedScrap: 暂存已绘制的但将要改变的的ViewHolder，主要用于 pre-layout 中布局
+Recycler.mAttachedScrap: 暂存已绘制但非局部刷新标记的ViewHolder，在下次 onLayout 的时候，可以快速复用，无须 onCreateViewHolder 和 onBindViewHolder
+生命周期
+add的时候：
+1. LinearLayoutManager.onLayoutChildren - detachAndScrapAttachedViews(recycler), 当 !viewHolder.isInvalid() || viewHolder.isRemoved() || mRecyclerView.mAdapter.hasStableIds()
+2. recycler.scrapView 根据 holder.isUpdated() 决定, 如果 holder.isUpdated() == true，则进入 mChangedScrap，反之进入 mAttachedScrap
+use的时候：RecyclerView.Recycler.tryGetViewHolderForPositionByDeadline
+Tip: 从 mRecyclerView.mAdapter.hasStableIds() == true 可知，都会调用 recycler.scrapView(view);
+
+Recycler.mCacheView: 缓存最近 detach 的 ViewHolder, 可以设置通过 Recycler.setViewCacheSize 设置缓存大小
+生命周期
+add的时候：RecyclerView.LayoutManager.(removeAndRecycleView/removeAndRecycleViewAt)
+use的时候：RecyclerView.Recycler.tryGetViewHolderForPositionByDeadline
+
+Recycler.RecyclerViewPool：按照 ViewType为索引 缓存指定个数的ViewHolder
+生命周期
+add的时候：
+use的时候：RecyclerView.Recycler.tryGetViewHolderForPositionByDeadline
+
+
+### 常见问题
+1. 使用 notifyItemChanged() 不带 payloads参数，对应条目发生闪烁原因
+   * 是因为ViewHolder 打上了 ViewHolder.FLAG_UPDATE，只会进入 changeScrap 暂存区
+   * pre-layout 会从 changeScrap 取出 原ViewHolder A
+   * post-layout 会从 attachScrap/cacheView/recyclerViewPool/adapter 中取出ViewHolder B
+   * 但此时 ViewHolder A 和 ViewHolder B，不是同一个，则 ViewHolder A 进行淡出，ViewHolder B进行淡入，整体表现为闪烁 
+
+2. notifyItemChanged() 使用 payloads 不闪烁原因
 
 
 ### RecyclerView 与 ListView 对比
@@ -394,11 +425,7 @@ class RecyclerView extends ViewGroup implements ScrollingView, NestedScrollingCh
 }
 ```
 
-
-### 关于RecyclerView问题思考
-1. Payload不为空为什么能局部刷新
-2.
-
+### 部分流程解析
 1、全部刷新 => notifyDataSetChanged[Adapter] -> onChange[RecyclerViewDataObserver]
     mState.mStructureChanged => true
     processDataSetCompletelyChanged(true)
@@ -425,8 +452,6 @@ class RecyclerView extends ViewGroup implements ScrollingView, NestedScrollingCh
         else 
             mAdapterUpdateDuringMeasure = true;
             requestLayout();
-
-
 
 RecyclerView
 1、测量流程
