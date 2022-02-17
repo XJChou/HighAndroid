@@ -6,15 +6,15 @@
 
 原文件
 
-<img src="./resources/file_origin.jpg"/>
+<img src="./resources/file_origin.jpg" width="60%" />
 
-打包后的文件
+打包后的文件, 发现文件资源内容变为 \<x/>
 
-<img src="./resources/fixed_before.jpg" />
+<img src="./resources/fixed_before.jpg" width="60%" />
 
-发现文件资源内容变为 <x />，经过官方文档修复后
+经过官方文档修复后
 
-<img src="./resources/fixed_after.jpg"/>
+<img src="./resources/fixed_after.jpg" width="60%" />
 
 ### 解决方法
 
@@ -36,24 +36,24 @@
     tools:discard="@layout/unused2" />
 ```
 
-### 定位 <x/> 发生的文件
+### 定位 \<x/> 发生的文件
 1. 根据异常信息，可定位到 KFChatActivity 中的，反射 android.widget.x 控件异常
 2. 继承 KFChatActivity, 重写 onCreateView 方法，对比 shrinkResources 开启和关闭的的View生成，可定位 activity_kf_chat_black.xml 文件问题
-3. 查看生成后的shrink开启的apk资源文件 activity_kf_chat_black.xml，发现文件内容为<x/>
+3. 查看生成后的shrink开启的apk资源文件 activity_kf_chat_black.xml，发现文件内容为\<x/>
 4. 然后搜索 google shrink 和 xml 内容相关，可追踪到官方文档
 
-### 查找替换为 <x/> 过程
+### 查找替换为 \<x/> 过程
 1. 利用 gradle 回调，获取当前打包所有任务，由上述可知 shrink 引起的过程，打印 assemble 过程的所有执行
 ```groovy
-    // 执行一次assemble*任务，查找当前Shrink相关内容
-    gradle.taskGraph.whenReady { taskGraph ->
-        taskGraph.allTasks.each { task ->
-            println "task = ${task.name}, class = ${task.class.toString() - "_Decorated"} , dependOns = ${task.dependsOn}"
-        }
-    }
+// 执行一次assemble*任务，查找当前Shrink相关内容
+gradle.taskGraph.whenReady { taskGraph ->
+    taskGraph.allTasks.each { task ->
+        println "task = ${task.name}, class = ${task.class.toString() - "_Decorated"} , dependOns = ${task.dependsOn}"
+     }
+}
 ```
 2. 从打印过程中搜索与Shrink相关的任务，发现 ShrinkResourcesTask 相关类，点击查找源码
-3. 最后发现 ResourceShrinkerImpl.replaceWithDummyEntry()，使用固定bytes数组替换原先文件，并且从注释可知内容为<x/>
+3. 最后发现 ResourceShrinkerImpl.replaceWithDummyEntry()，使用固定bytes数组替换原先文件，并且从注释可知内容为\<x/>
 4. 使用bytes数组拷贝，写进一个*.xml,并放入apk中，最后可查看到与问题相同的内容（因为这里内容是加密的，AndroidStudio打开apk的时候做了解密）
 ```java
 class ResourceShrinkerImpl {
@@ -137,7 +137,7 @@ class ResourceShrinkerImpl {
 }
 ```
 
-### 所学的内容
-1、shrink 对 xml 文件的处理，资源的 严格模式 和 安全模式，keep相关内容
-2、apk 内的文件是经过加密的，AndroidStudio工具帮我们自动解密
-3、LayoutInflate.inflate 内部 factory 初始化过程和顺序(mFactory2 -> mFactory -> mPrivateFactory)
+### 技术点
+1. shrink 对 xml 文件的处理，资源的 严格模式 和 安全模式，keep相关内容
+2. apk 内的文件是经过加密的，AndroidStudio工具帮我们自动解密
+3. LayoutInflate.inflate 内部 factory 初始化过程和顺序(mFactory2 -> mFactory -> mPrivateFactory)
