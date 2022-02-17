@@ -61,3 +61,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
+
+// 打印当前有向无环图的任务
+gradle.taskGraph.whenReady { taskGraph ->
+    taskGraph.allTasks.each { task ->
+        println "task = ${task.name}, class = ${task.class.toString() - "_Decorated"} , dependOns = ${task.dependsOn}"
+    }
+}
