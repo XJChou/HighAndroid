@@ -39,7 +39,7 @@
 ### 定位 \<x/> 发生的文件
 1. 根据异常信息，可定位到 KFChatActivity 中的，反射 android.widget.x 控件异常
 2. 继承 KFChatActivity, 重写 onCreateView 方法，对比 shrinkResources 开启和关闭的的View生成，可定位 activity_kf_chat_black.xml 文件问题
-3. 查看生成后的shrink开启的apk资源文件 activity_kf_chat_black.xml，发现文件内容为\<x/>
+3. 查看生成后的shrink开启的apk资源文件 activity_kf_chat_black.xml，发现文件内容确实为\<x/>
 4. 然后搜索 google shrink 和 xml 内容相关，可追踪到官方文档
 
 ### 查找替换为 \<x/> 过程
