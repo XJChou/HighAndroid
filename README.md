@@ -16,21 +16,6 @@ Android进阶Demo【HenCoder 第八期】
 相关技术：</p>
     View.OnDragListener：View自带的拖拽，主要用于跨应用传输数据【扔老师：如果是分屏的时候，可以把相册的内容，直接拖到微信聊天框，可以直接发照片】 </p>
 
-### ConstraintLayout
-</p>
-<h4><a href='https://github.com/XJChou/HighAndroid/blob/master/constraint/README.md'>关于ConstraintLayout中TextView省略号问题</a></h4>
-<div>
-    <img width="300px" src='https://github.com/XJChou/HighAndroid/blob/master/constraint/images/Constraint_validate.gif'/>
-    <img width="300px" src='https://github.com/XJChou/HighAndroid/blob/master/constraint/images/Constraint_invalidate.gif'/>
-</div>
-
-### SharedElement 过渡相关
-#### [关于 Activity/Fragment.SharedElement 过渡相关问题](fragment)
-<div>
-    <img width="300px" src='./fragment/images/Fragment_invalid_shared_element_resize.gif'/>
-    <img width="300px" src='./fragment/images/Fragment_valid_shared_element resize.gif'/>
-</div>
-
 ### 技术点应用
 * [手动打包简单APK流程](buildapk)
 * [简单插件化和热更新](component)
@@ -38,5 +23,17 @@ Android进阶Demo【HenCoder 第八期】
 * [文本绘制](text)
 * [RecyclerView部分解析](source/RecyclerView)
 
-### 项目过程问题
+### 遇到的问题
 * [反射资源 && ShrinkResources=true](question/shrink)
+* [关于ConstraintLayout中TextView省略号问题](constraint)
+    <div>
+        <br/>
+        <img width="300px" src='https://github.com/XJChou/HighAndroid/blob/master/constraint/images/Constraint_validate.gif'/>
+        <img width="300px" src='https://github.com/XJChou/HighAndroid/blob/master/constraint/images/Constraint_invalidate.gif'/>
+    </div>
+* [关于 Activity/Fragment.SharedElement 过渡相关问题](fragment)
+    <div>
+        <br/>
+        <img width="300px" src='./fragment/images/Fragment_invalid_shared_element_resize.gif'/>
+        <img width="300px" src='./fragment/images/Fragment_valid_shared_element resize.gif'/>
+    </div>
