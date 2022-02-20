@@ -24,7 +24,11 @@ Android进阶Demo【HenCoder 第八期】
 * [RecyclerView部分解析](source/RecyclerView)
 
 ### 遇到的问题
-* [反射资源 && ShrinkResources=true](question/shrink)
+* [打包后资源文件变为\<x />](question/shrink)
+    <div>
+        <br/>
+        <img width="300px" src='./question/shrink/resources/fixed_before.jpg' />
+    </div>
 * [关于ConstraintLayout中TextView省略号问题](constraint)
     <div>
         <br/>
