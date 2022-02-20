@@ -23,7 +23,7 @@ Android进阶Demo【HenCoder 第八期】
 * [文本绘制](text)
 * [RecyclerView部分解析](source/RecyclerView)
 
-### 遇到的问题
+### 问题查找过程
 * [打包后资源文件变为\<x />](question/shrink)
     <div>
         <br/>
