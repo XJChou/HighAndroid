@@ -30,8 +30,8 @@ class CameraView(context: Context?, attrs: AttributeSet?) : View(context, attrs)
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        onDrawTeacher(canvas)
-//        onDrawMine(canvas)
+//        onDrawTeacher(canvas)
+        onDrawMine(canvas)
     }
 
     private fun onDrawTeacher(canvas: Canvas) {
