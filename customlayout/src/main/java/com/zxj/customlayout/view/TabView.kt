@@ -1,4 +1,4 @@
-package com.zxj.customlayout.viewgroup
+package com.zxj.customlayout.view
 
 import android.content.Context
 import android.graphics.Canvas
