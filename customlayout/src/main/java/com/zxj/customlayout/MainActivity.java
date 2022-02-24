@@ -19,6 +19,5 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_group).setOnClickListener(v -> {
             startActivity(new Intent(this, LayoutGroupActivity.class));
         });
-        startActivity(new Intent(this, LayoutGroupActivity.class));
     }
 }
