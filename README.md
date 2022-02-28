@@ -16,13 +16,13 @@ Tips: 不能使用 translationX/translationY 做动画，是因为 ViewDrawHelpe
     View.OnDragListener：View自带的拖拽，主要用于跨应用传输数据【扔老师：如果是分屏的时候，可以把相册的内容，直接拖到微信聊天框，可以直接发照片】
 
 ### 技术点应用
+* [文本绘制](text)
 * [自定义 View 和 ViewGroup](customlayout)
 * [范围裁切和几何变换](clipcamera)
 * [属性动画应用](animation)
 * [手动打包简单APK流程](buildapk)
 * [简单插件化和热更新](component)
 * [简易Android Processor使用](butterknife)
-* [文本绘制](text)
 * [RecyclerView部分解析](source/RecyclerView)
 
 ### 问题查找过程
