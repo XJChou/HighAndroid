@@ -14,5 +14,19 @@
       1. bounds.top 和 bounds.bottom 分别指文字top坐标和bottom坐标，所以求出中间坐标为 (top + bottom) / 2f
       2. baseline坐标 和 center(top+bottom)坐标为差值 - (top + bottom) / 2f，只要baseline下移差值即可，则最后得baseline坐标为  height / 2f + (-(top + bottom) / 2f)
 
+
 ### [图文混排](./src/main/java/com/zxj/text/view/RichTextView.kt)
 <img src="./resources/text_mixed.jpg" style="width: 300px;" />
+
+技术点：
+1. Paint.breakText 函数的应用
+
+
+### [MaterialEditText](../materialedittext/src/main/java/com/zxj/materialedittext/view/MaterialEditTextView.kt)
+<img src="./resources/MaterialEditText.gif" style="width: 300px;" />
+
+技术点：
+1. 简单属性动画应用
+2. 自定义属性原理
+   * R.styleable.MaterialEditTextView 是个int类型的数组，包含属性的id，在当前例子等价于intArrayOf(R.attr.useFloatingLabel)
+   * R.styleable.MaterialEditTextView_useFloatingLabel 是个int的值，是在上一个数组的索引，在当前例子等价于 0 
