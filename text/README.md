@@ -14,6 +14,7 @@
       1. bounds.top 和 bounds.bottom 分别指文字top坐标和bottom坐标，所以求出中间坐标为 (top + bottom) / 2f
       2. baseline坐标 和 center(top+bottom)坐标为差值 - (top + bottom) / 2f，只要baseline下移差值即可，则最后得baseline坐标为  height / 2f + (-(top + bottom) / 2f)
 
+
 ### [图文混排](./src/main/java/com/zxj/text/view/RichTextView.kt)
 <img src="./resources/text_mixed.jpg" style="width: 300px;" />
 
