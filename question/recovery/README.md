@@ -1,17 +1,15 @@
 # 关于系统恢复 ViewPager导致 Fragment 不一致问题
 
 ### 问题描述
-
 <div>
     <br/>
-    <img width="300px" src='./question/recovery/resources/success.gif'/>
-    <img width="300px" src='./question/recovery/resources/error.gif'/>
+    <img width="300px" src='./resources/success.gif'/>
+    <img width="300px" src='./resources/error.gif'/>
 </div>
 
 从图上可知，右边切换成华为小窗的时候(系统恢复整个节目)，滑动的时候，发现选择按钮消失，而切换前是正常可用
 
 ### 问题原因
-
 ```java
 public abstract class FragmentPagerAdapter extends PagerAdapter {
 
