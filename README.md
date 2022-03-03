@@ -16,14 +16,16 @@ Tips: 不能使用 translationX/translationY 做动画，是因为 ViewDrawHelpe
     View.OnDragListener：View自带的拖拽，主要用于跨应用传输数据【扔老师：如果是分屏的时候，可以把相册的内容，直接拖到微信聊天框，可以直接发照片】
 
 ### 技术点应用
+* [图形的位置和尺寸测量](path)
 * [文本绘制](text)
-* [自定义 View 和 ViewGroup](customlayout)
+* [View的测量和布局](customlayout)
 * [范围裁切和几何变换](clipcamera)
 * [属性动画应用](animation)
 * [手动打包简单APK流程](buildapk)
 * [简单插件化和热更新](component)
 * [简易Android Processor使用](butterknife)
 * [RecyclerView部分解析](source/RecyclerView)
+* [Retrofit协程不使用Result处理异常的一种CallAdapter](source/retrofit)
 
 ### 问题查找过程
 * [打包后资源文件变为\<x />](question/shrink)
@@ -42,4 +44,10 @@ Tips: 不能使用 translationX/translationY 做动画，是因为 ViewDrawHelpe
         <br/>
         <img width="300px" src='./fragment/images/Fragment_invalid_shared_element_resize.gif'/>
         <img width="300px" src='./fragment/images/Fragment_valid_shared_element resize.gif'/>
+    </div>
+* [关于系统恢复ViewPager导致Framgent不一致问题](question/recovery)
+    <div>
+        <br/>
+        <img width="300px" src='./question/recovery/resources/success.gif'/>
+        <img width="300px" src='./question/recovery/resources/error.gif'/>
     </div>

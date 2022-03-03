@@ -54,7 +54,7 @@ class DashboardView(context: Context, attrs: AttributeSet) : View(context, attrs
         )
 
         pathMeasure.setPath(arcPath, false)
-        var arcLength = pathMeasure.length
+        val arcLength = pathMeasure.length
 
         pathEffect = PathDashPathEffect(
             dashPath,

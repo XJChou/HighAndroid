@@ -1,4 +1,4 @@
-# 自定义 View 和 ViewGroup
+# View的测量和布局
 
 ### 自定义View
 view的自身测量：
