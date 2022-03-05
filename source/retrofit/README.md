@@ -17,7 +17,9 @@ fun main() {
     }
 }
 ```
+
 或者
+
 ```kotlin
 fun main() {
     GlobalScope.launch(CoroutineExceptionHandler{ _, _ -> 
@@ -29,13 +31,13 @@ fun main() {
 ```
 
 ### 中级版
-看过 Retrofit 源码的时候，并且知晓Kotlin有 Result<T>，就产生了 ResultCallAdapter
-* 
+看过 Retrofit 源码的时候，并且知晓Kotlin有 Result<T>，就产生了 ResultCallAdapter，但有点冗余；
 
 
 ### 高级版
-* CallAdapter 中 responseType() 函数是用于提供 Converter 转换类型使用的
-* 通过包装一层Call吸收异常处理，并且不影响原先逻辑
+* CallAdapter 中 responseType() 函数是用于提供 Converter 识别转换类型使用的
+* 通过观察Retrofit对协程的处理，本质还是Call<T>
+* 通过包装一层Call吸收异常处理，不影响原先逻辑
 
 ```kotlin
 class API<Data>(val code: Int, val msg: String?, val data: Data? = null) {
@@ -70,7 +72,7 @@ fun Throwable.toAPI(): API<*> {
 
 
 /**
- * Retrofit CallAdapter 工厂
+ * 用于识别制定返回值的工厂
  */
 class APICallAdapterFactory : CallAdapter.Factory() {
 
@@ -82,21 +84,26 @@ class APICallAdapterFactory : CallAdapter.Factory() {
         annotations: Array<out Annotation>,
         retrofit: Retrofit
     ): CallAdapter<*, *>? {
+        // 1、校验最一层泛型是否是 Retrofit.Call<T> 类型
         if (getRawType(returnType) != Call::class.java || returnType !is ParameterizedType) {
             return null
         }
-
+        
+        // 2、校验第二层泛型是否是 API<T> 类型
         val firstType = getParameterUpperBound(0, returnType)
         if (getRawType(firstType) != API::class.java || firstType !is ParameterizedType) {
             return null
         }
 
+        // 3、符合则生成制定CallAdapter
         return APICallAdapter(firstType)
     }
 
 }
 
-
+/**
+ * 主要用于adapter 异常包装Call
+ */
 class APICallAdapter(private val responseType: Type) : CallAdapter<API<*>, Call<API<*>>> {
 
     /**
@@ -109,7 +116,7 @@ class APICallAdapter(private val responseType: Type) : CallAdapter<API<*>, Call<
 
 
 /**
- * 套一层的作用：主要用来捕获异常防止向上抛出
+ * 包装异常使正常返回API
  */
 class APICall(private val originCall: Call<API<*>>) : Call<API<*>> {
 
