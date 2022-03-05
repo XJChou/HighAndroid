@@ -13,7 +13,7 @@ import com.zxj.touch.R
 import java.util.*
 
 /**
- * 合作性[放大和缩小]
+ * 合作性
  */
 class CooperationView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
