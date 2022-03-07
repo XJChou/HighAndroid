@@ -5,7 +5,7 @@ Android进阶Demo【HenCoder 第八期】
 * [图形的位置和尺寸测量](path)
 * [文本绘制](text)
 * [View的测量和布局](customlayout)
-* [View触控](touch)
+* [View touch](touch)
 * [范围裁切和几何变换](clipcamera)
 * [属性动画应用](animation)
 * [手动打包简单APK流程](buildapk)

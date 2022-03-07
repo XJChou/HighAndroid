@@ -135,6 +135,7 @@ class ScalableImageView(context: Context, attrs: AttributeSet) : View(context, a
      */
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+            overScroller.abortAnimation()
             isScale = false
         }
         scaleGestureDetector.onTouchEvent(event)
@@ -292,23 +293,38 @@ class ScalableImageView(context: Context, attrs: AttributeSet) : View(context, a
         var focusX = 0f
         var focusY = 0f
         override fun onScale(detector: ScaleGestureDetector): Boolean {
-            val targetScale = scale * detector.scaleFactor
-            if (targetScale in minScale..maxScale) {
-                offsetX = checkOffsetX(
-                    originOffsetX - (targetScale / originScale - 1) * focusX,
-                    targetScale
-                )
-                offsetY = checkOffsetY(
-                    originOffsetY - (targetScale / originScale - 1) * focusY,
-                    targetScale
-                )
+//            val targetScale = scale * detector.scaleFactor
+//            if (targetScale in minScale..maxScale) {
+//                offsetX = checkOffsetX(
+//                    originOffsetX - (targetScale / originScale - 1) * focusX,
+//                    targetScale
+//                )
+//                offsetY = checkOffsetY(
+//                    originOffsetY - (targetScale / originScale - 1) * focusY,
+//                    targetScale
+//                )
+//
+//                scale = targetScale
+//                return true
+//            }
+//            // [*] 返回值是有意义的
+//            // true 是 scaleFactor 是 返回 当前状态 和 上一个状态 比值
+//            // false 是 scaleFactor 返回 当前状态 和 上一个状态 比值
+//            return false
 
-                scale = targetScale
-                return true
-            }
-            // [*] 返回值是有意义的
-            // true 是 scaleFactor 是 返回 当前状态 和 上一个状态 比值
-            // false 是 scaleFactor 返回 当前状态 和 上一个状态 比值
+            // 修改原因：防止scaleFactor过大导致没有达到限制就不缩放了
+            val targetScale = (originScale *  detector.scaleFactor)
+                .coerceAtLeast(minScale)
+                .coerceAtMost(maxScale)
+            offsetX = checkOffsetX(
+                originOffsetX - (targetScale / originScale - 1) * focusX,
+                targetScale
+            )
+            offsetY = checkOffsetY(
+                originOffsetY - (targetScale / originScale - 1) * focusY,
+                targetScale
+            )
+            scale = targetScale
             return false
         }
 
