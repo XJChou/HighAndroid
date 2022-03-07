@@ -3,7 +3,8 @@
 ### View的拖拽
 
 1. [ViewDragHelper(应用内拖拽)](./src/main/java/com/zxj/touch/drag/DragBlockView.kt)
-   <img src='./resources/DrahHelper.gif' style='width: 400px' />
+
+   <img src='./resources/DragHelper.gif' style='width: 400px' />
 
 2. [OnDragListener(应用间拖拽)](./src/main/java/com/zxj/touch/drag/fragment/DragTransportFragment.kt)
 
