@@ -41,5 +41,5 @@ Android进阶Demo【HenCoder 第八期】
 * [关于Android6.0-gson-StackOverflowError问题](question/android6/gson)
     <div>
         <br />
-        <img width="600px" src='./question/android6/gson/bug.jpg'/>
+        <img width="600px" src='question/android6/gson/resources/bug.jpg'/>
     </div>
