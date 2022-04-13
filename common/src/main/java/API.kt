@@ -81,7 +81,7 @@ class APICall(private val originCall: Call<API<*>>) : Call<API<*>> {
 
     override fun execute(): Response<API<*>> {
         return try {
-            originCall.execute()
+            originCall.execute().check()
         } catch (e: Exception) {
             Response.success(e.toAPI())
         }
@@ -90,7 +90,11 @@ class APICall(private val originCall: Call<API<*>>) : Call<API<*>> {
     override fun enqueue(callback: Callback<API<*>>) {
         originCall.enqueue(object : Callback<API<*>> {
             override fun onResponse(call: Call<API<*>>, response: Response<API<*>>) {
-                callback.onResponse(this@APICall, response)
+                try {
+                    callback.onResponse(this@APICall, response.check())
+                } catch (e: Exception) {
+                    callback.onResponse(this@APICall, Response.success(e.toAPI()))
+                }
             }
 
             override fun onFailure(call: Call<API<*>>, t: Throwable) {
@@ -109,4 +113,10 @@ class APICall(private val originCall: Call<API<*>>) : Call<API<*>> {
 
     override fun clone(): Call<API<*>> = APICall(originCall.clone())
 
+    private fun Response<API<*>>.check(): Response<API<*>> {
+        if (this.body() != null) {
+            return this
+        }
+        return Response.success(NullPointerException().toAPI())
+    }
 }
