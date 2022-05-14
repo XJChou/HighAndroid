@@ -6,6 +6,10 @@ plugins {
 android {
     compileSdk 30
 
+    viewBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.zxj.customlayout"
         minSdk 21
