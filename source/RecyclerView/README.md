@@ -18,8 +18,7 @@ RecyclerView 使用 pre-layout 和 post-layout 来获取动画前后状态
 ### RecyclerView暂存区/缓存区
 
 * Recycler.mChangedScrap: 暂存已绘制的但将要改变的的ViewHolder，主要用于 pre-layout 中布局
-* Recycler.mAttachedScrap: 暂存已绘制但非局部刷新标记的ViewHolder，在下次 onLayout 的时候，可以快速复用，无须 onCreateViewHolder 和
-  onBindViewHolder
+* Recycler.mAttachedScrap: 暂存已绘制但非局部刷新标记的ViewHolder，在下次 onLayout 的时候，可以快速复用，无须 onCreateViewHolder， 但需要实际情况进行onBindViewHolder
 
   source：
     1. LinearLayoutManager.onLayoutChildren - detachAndScrapAttachedViews(recycler), 当 !
@@ -38,6 +37,8 @@ RecyclerView 使用 pre-layout 和 post-layout 来获取动画前后状态
   source：CacheView超出cacheSize的条目 || holder.isUpdated() == true || holder.isRemoved() == true
 
 use：RecyclerView.Recycler.tryGetViewHolderForPositionByDeadline
+
+<img src="./resources/RecyclerView思维导图.png" width="80%">
 
 ### 常见问题
 
